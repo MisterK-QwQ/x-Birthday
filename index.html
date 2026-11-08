@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin="">
 <!-- 字体异步加载：CDN 慢或打不开时不会卡住渲染，直接回落到系统楷体；加载失败则移除该样式表 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css" media="print" onload="this.media='all'" onerror="this.remove()">
-<link rel="stylesheet" href="css/style.css?v=20261109">
+<link rel="stylesheet" href="css/style.css?v=20261109c">
 <noscript><style>
 .reveal{opacity:1!important;transform:none!important}
 .film--reveal .film__frame{clip-path:none!important}
@@ -123,7 +123,7 @@
 
     <div class="film__caption">
       <p class="section-label reveal">03 &nbsp;/&nbsp; 第二段影像</p>
-      <h2 class="reveal" style="--d:100ms">结局又不是定死的，<br>能改。</h2>
+      <h2 class="reveal" style="--d:100ms">所有结局不一定是坏的，定死的。</h2>
     </div>
 
     <p class="film__note" hidden>视频没加载出来，检查一下 assets/videos/video-2.mp4</p>
@@ -136,17 +136,55 @@
 
     <div class="cake" id="cake" role="group" aria-label="生日蛋糕">
       <div class="cake__glow" aria-hidden="true"></div>
-      <div class="cake__plate" aria-hidden="true"></div>
-      <div class="cake__tier cake__tier--bottom" aria-hidden="true"></div>
-      <div class="cake__tier cake__tier--mid" aria-hidden="true"></div>
-      <div class="cake__tier cake__tier--top" aria-hidden="true"></div>
+
+      <div class="cake__plate" aria-hidden="true"><span class="cake__plate-shine"></span></div>
+
+      <div class="cake__tier cake__tier--bottom" aria-hidden="true">
+        <span class="tier__frosting"></span>
+        <span class="tier__drips"></span>
+      </div>
+      <div class="cake__tier cake__tier--mid" aria-hidden="true">
+        <span class="tier__frosting"></span>
+        <span class="tier__drips"></span>
+      </div>
+      <div class="cake__tier cake__tier--top" aria-hidden="true">
+        <span class="tier__frosting"></span>
+        <span class="tier__drips"></span>
+        <span class="tier__toppings">
+          <i class="top top--berry"></i>
+          <i class="top top--pearl"></i>
+          <i class="top top--berry top--berry2"></i>
+          <i class="top top--pearl top--pearl2"></i>
+          <i class="top top--gold"></i>
+        </span>
+      </div>
 
       <div class="cake__candles">
-        <button class="candle" type="button" aria-label="吹灭第 1 根蜡烛" aria-pressed="false"><span class="candle__flame"></span><span class="candle__smoke"></span></button>
-        <button class="candle" type="button" aria-label="吹灭第 2 根蜡烛" aria-pressed="false"><span class="candle__flame"></span><span class="candle__smoke"></span></button>
-        <button class="candle" type="button" aria-label="吹灭第 3 根蜡烛" aria-pressed="false"><span class="candle__flame"></span><span class="candle__smoke"></span></button>
-        <button class="candle" type="button" aria-label="吹灭第 4 根蜡烛" aria-pressed="false"><span class="candle__flame"></span><span class="candle__smoke"></span></button>
-        <button class="candle" type="button" aria-label="吹灭第 5 根蜡烛" aria-pressed="false"><span class="candle__flame"></span><span class="candle__smoke"></span></button>
+        <button class="candle" type="button" aria-label="吹灭第 1 根蜡烛" aria-pressed="false">
+          <span class="candle__body"></span>
+          <span class="candle__flame"><i class="flame__outer"></i><i class="flame__inner"></i><i class="flame__core"></i></span>
+          <span class="candle__smoke"></span>
+        </button>
+        <button class="candle" type="button" aria-label="吹灭第 2 根蜡烛" aria-pressed="false">
+          <span class="candle__body"></span>
+          <span class="candle__flame"><i class="flame__outer"></i><i class="flame__inner"></i><i class="flame__core"></i></span>
+          <span class="candle__smoke"></span>
+        </button>
+        <button class="candle" type="button" aria-label="吹灭第 3 根蜡烛" aria-pressed="false">
+          <span class="candle__body"></span>
+          <span class="candle__flame"><i class="flame__outer"></i><i class="flame__inner"></i><i class="flame__core"></i></span>
+          <span class="candle__smoke"></span>
+        </button>
+        <button class="candle" type="button" aria-label="吹灭第 4 根蜡烛" aria-pressed="false">
+          <span class="candle__body"></span>
+          <span class="candle__flame"><i class="flame__outer"></i><i class="flame__inner"></i><i class="flame__core"></i></span>
+          <span class="candle__smoke"></span>
+        </button>
+        <button class="candle" type="button" aria-label="吹灭第 5 根蜡烛" aria-pressed="false">
+          <span class="candle__body"></span>
+          <span class="candle__flame"><i class="flame__outer"></i><i class="flame__inner"></i><i class="flame__core"></i></span>
+          <span class="candle__smoke"></span>
+        </button>
       </div>
     </div>
 

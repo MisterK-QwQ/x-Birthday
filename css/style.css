@@ -436,110 +436,198 @@ a{color:inherit}
 /* 蛋糕 */
 .cake{
   position:relative;
-  width:min(340px,72vw);height:calc(min(340px,72vw) * .95);
+  width:min(340px,72vw);height:calc(min(340px,72vw) * .98);
   margin:clamp(46px,8vh,76px) auto 0;
-  filter:drop-shadow(0 34px 44px rgba(0,0,0,.55));
+  filter:drop-shadow(0 30px 42px rgba(0,0,0,.5));
 }
 
+/* 火焰在蛋糕顶部洒下的环境光，随火焰轻轻脉动 */
 .cake__glow{
-  position:absolute;left:50%;bottom:74%;
-  width:74%;aspect-ratio:1.6;
+  position:absolute;left:50%;bottom:70%;
+  width:82%;aspect-ratio:1.5;
   transform:translate(-50%,50%);
-  background:radial-gradient(ellipse,rgba(255,190,112,.32),rgba(255,160,80,.08) 50%,transparent 70%);
-  filter:blur(20px);
-  transition:opacity .9s ease;
-  z-index:0;
+  background:radial-gradient(ellipse at 50% 45%,
+    rgba(255,196,120,.42),
+    rgba(255,160,80,.12) 48%,
+    transparent 72%);
+  filter:blur(18px);
+  z-index:0;pointer-events:none;
+  animation:glowPulse 2.6s ease-in-out infinite;
+  transition:opacity .8s ease;
 }
 
+/* 瓷盘：盘面 + 盘沿 + 高光 */
 .cake__plate{
-  position:absolute;left:50%;bottom:-2%;z-index:1;
-  width:124%;height:12%;
+  position:absolute;left:50%;bottom:-3%;z-index:1;
+  width:128%;height:13%;
   transform:translateX(-50%);
   border-radius:50%;
-  background:radial-gradient(ellipse at 50% 38%,rgba(233,200,143,.26),rgba(233,200,143,.06) 52%,transparent 74%);
-  filter:blur(2px);
+  background:radial-gradient(ellipse at 50% 28%,
+    rgba(255,250,240,.34),
+    rgba(233,200,143,.12) 46%,
+    rgba(120,80,40,.2) 72%,
+    transparent 78%);
+  box-shadow:0 10px 22px rgba(0,0,0,.4);
+}
+.cake__plate-shine{
+  position:absolute;left:18%;right:18%;top:22%;height:28%;
+  border-radius:50%;
+  background:linear-gradient(180deg,rgba(255,255,255,.4),transparent);
+  filter:blur(1px);
 }
 
+/* 糕体：横向 + 纵向双渐变叠加，做出圆柱体积感 */
 .cake__tier{
   position:absolute;left:50%;z-index:2;
   transform:translateX(-50%);
-  border-radius:8px 8px 6px 6px;
-  background:linear-gradient(180deg,#f4e0c2,#dcb691 52%,#b98a63 100%);
+  border-radius:10px 10px 7px 7px;
+  background:
+    linear-gradient(90deg,
+      rgba(120,70,35,.3) 0%,
+      rgba(255,255,255,.18) 18%,
+      rgba(255,255,255,.05) 50%,
+      rgba(90,50,25,.22) 100%),
+    linear-gradient(180deg,#f2ddbd 0%,#e3c19a 46%,#c79a6c 78%,#ad7f52 100%);
   box-shadow:
-    inset 0 -14px 26px rgba(84,44,22,.38),
-    inset 10px 0 22px rgba(255,255,255,.12),
-    0 8px 18px rgba(0,0,0,.32);
+    inset 0 -12px 22px rgba(80,42,20,.4),
+    inset 0 3px 6px rgba(255,255,255,.35),
+    0 10px 18px rgba(0,0,0,.3);
 }
 .cake__tier--bottom{width:100%;height:32%;bottom:6%}
 .cake__tier--mid{width:76%;height:25%;bottom:34%}
 .cake__tier--top{width:54%;height:20%;bottom:55%}
 
-/* 奶油 */
-.cake__tier::before{
-  content:"";position:absolute;left:-1px;right:-1px;top:-6px;height:24px;
-  background:linear-gradient(180deg,#fffaf0,#f7e8d2);
-  border-radius:12px 12px 8px 8px;
-  box-shadow:0 4px 8px rgba(90,50,30,.18);
+/* 顶部奶油：柔软的圆角裱层 */
+.tier__frosting{
+  position:absolute;left:0;right:0;top:0;
+  height:36%;
+  border-radius:10px 10px 4px 4px;
+  background:linear-gradient(180deg,#fffdf6 0%,#fbf0dd 55%,#f2e0c6 100%);
+  box-shadow:
+    inset 0 2px 3px rgba(255,255,255,.9),
+    0 3px 6px rgba(96,56,30,.18);
 }
-.cake__tier::after{
-  content:"";position:absolute;left:0;right:0;top:15px;height:14px;
-  background-image:radial-gradient(circle at 11px 0,#fbf1e0 10px,transparent 11px);
-  background-size:22px 14px;
-  background-repeat:repeat-x;
-  opacity:.96;
+
+/* 奶油滴落：贴在奶油层下边缘的圆润裱花，高低错落（显式半径，避免 closest-side 退化） */
+.tier__drips{
+  position:absolute;left:4%;right:4%;top:27%;height:24%;
+  background:
+    radial-gradient(50% 100% at 50% 0,#fbf0dd 96%,rgba(251,240,221,0) 100%) 0 0/20% 100% no-repeat,
+    radial-gradient(50% 100% at 50% 0,#fbf0dd 96%,rgba(251,240,221,0) 100%) 20% 0/20% 74% no-repeat,
+    radial-gradient(50% 100% at 50% 0,#fbf0dd 96%,rgba(251,240,221,0) 100%) 40% 0/20% 100% no-repeat,
+    radial-gradient(50% 100% at 50% 0,#fbf0dd 96%,rgba(251,240,221,0) 100%) 60% 0/20% 68% no-repeat,
+    radial-gradient(50% 100% at 50% 0,#fbf0dd 96%,rgba(251,240,221,0) 100%) 80% 0/20% 92% no-repeat;
+}
+
+/* 顶层装饰：莓果、糖珠、金珠，全部带球面高光 */
+.tier__toppings{position:absolute;inset:0;z-index:3}
+.top{position:absolute;border-radius:50%}
+.top--berry{
+  width:17%;aspect-ratio:1;left:13%;bottom:6%;
+  background:radial-gradient(circle at 32% 28%,#f0a7b0,#c96f7b 55%,#9c4a55);
+  box-shadow:inset 0 -2px 3px rgba(90,30,40,.4),0 2px 3px rgba(0,0,0,.25);
+}
+.top--berry2{left:auto;right:15%;width:14%;bottom:8%}
+.top--pearl{
+  width:12%;aspect-ratio:1;left:37%;bottom:14%;
+  background:radial-gradient(circle at 34% 30%,#fff,#f0e2cc 55%,#cdb898);
+  box-shadow:inset 0 -2px 2px rgba(120,90,60,.3),0 2px 3px rgba(0,0,0,.2);
+}
+.top--pearl2{left:auto;right:37%;width:10%;bottom:22%}
+.top--gold{
+  width:11%;aspect-ratio:1;left:61%;bottom:8%;
+  background:radial-gradient(circle at 34% 30%,#fbe6b8,#e9c88f 55%,#b9853f);
+  box-shadow:inset 0 -2px 2px rgba(120,80,30,.4),0 2px 3px rgba(0,0,0,.2);
 }
 
 .cake__candles{
-  position:absolute;left:50%;bottom:75%;z-index:3;
-  display:flex;align-items:flex-end;gap:0;
+  position:absolute;left:50%;bottom:73%;z-index:4;
+  display:flex;align-items:flex-end;
   transform:translateX(-50%);
   height:0;
 }
 
 .candle{
   position:relative;
-  width:32px;height:44px;
+  width:30px;height:46px;
   padding:0;border:0;background:none;
   cursor:pointer;
 }
-.candle::before{content:"";position:absolute;inset:-26px 0 -6px;border-radius:8px}
-.candle::after{
-  content:"";position:absolute;left:50%;bottom:0;
-  width:8px;height:100%;transform:translateX(-50%);
-  border-radius:4px;
-  background:repeating-linear-gradient(135deg,#fdf3e2 0 6px,#e0b7a0 6px 11px);
-  box-shadow:inset 0 0 4px rgba(120,70,40,.35),0 0 10px rgba(255,190,120,.12);
-  transition:box-shadow .4s ease;
-}
-.candle:nth-child(2n){height:37px}
-.candle:nth-child(3){height:41px}
-.candle:hover::after,.candle:focus-visible::after{box-shadow:inset 0 0 4px rgba(120,70,40,.35),0 0 18px rgba(255,196,130,.4)}
+.candle:nth-child(2n){height:38px}
+.candle:nth-child(3){height:43px}
 .candle:focus-visible{outline:none}
 
+/* 蜡烛杆：横向高光 + 纵向条纹，做出细圆柱感 */
+.candle__body{
+  position:absolute;left:50%;bottom:0;
+  width:8px;height:100%;
+  transform:translateX(-50%);
+  border-radius:4px 4px 3px 3px;
+  background:
+    linear-gradient(90deg,rgba(120,70,40,.32),rgba(255,255,255,.35) 42%,rgba(120,70,40,.26)),
+    repeating-linear-gradient(180deg,#fdf3e2 0 7px,#e7c2ac 7px 12px);
+  box-shadow:inset 0 0 3px rgba(120,70,40,.3),0 0 10px rgba(255,190,120,.15);
+  transition:box-shadow .4s ease;
+}
+.candle:hover .candle__body,.candle:focus-visible .candle__body{
+  box-shadow:inset 0 0 3px rgba(120,70,40,.3),0 0 20px rgba(255,196,130,.5);
+}
+
+/* 火焰容器：整体跳动，每根错峰、不同时长 */
 .candle__flame{
-  position:absolute;left:50%;bottom:calc(100% + 4px);
-  width:11px;height:19px;
+  position:absolute;left:50%;bottom:calc(100% + 3px);
+  width:14px;height:24px;
   transform:translateX(-50%);
   transform-origin:50% 100%;
-  border-radius:50% 50% 46% 46% / 62% 62% 38% 38%;
-  background:radial-gradient(ellipse at 50% 80%,#fff8e0 0 16%,#ffcf80 40%,#ff9a45 70%,rgba(255,120,40,0) 100%);
-  box-shadow:0 0 16px 4px rgba(255,164,74,.45),0 0 44px 14px rgba(255,120,50,.18);
-  animation:flicker 1.5s ease-in-out infinite alternate;
-  transition:opacity .3s ease;
+  animation:flameFlicker 1.7s ease-in-out infinite alternate;
 }
-.candle.is-out .candle__flame{opacity:0;animation:none;box-shadow:none}
+.candle:nth-child(1) .candle__flame{animation-duration:1.6s;animation-delay:-.2s}
+.candle:nth-child(2) .candle__flame{animation-duration:1.9s;animation-delay:-1s}
+.candle:nth-child(3) .candle__flame{animation-duration:1.5s;animation-delay:-.5s}
+.candle:nth-child(4) .candle__flame{animation-duration:2s;animation-delay:-1.4s}
+.candle:nth-child(5) .candle__flame{animation-duration:1.7s;animation-delay:-.8s}
 
+.flame__outer,.flame__inner,.flame__core{
+  position:absolute;left:50%;bottom:0;
+  transform:translateX(-50%);
+}
+/* 外焰：橙红，带大范围暖光 */
+.flame__outer{
+  width:100%;height:100%;
+  border-radius:50% 50% 50% 50%/68% 68% 32% 32%;
+  background:radial-gradient(ellipse at 50% 82%,
+    rgba(255,140,50,.95) 0%,
+    rgba(255,110,40,.6) 55%,
+    rgba(255,90,30,0) 100%);
+  box-shadow:0 0 18px 5px rgba(255,150,60,.5),0 0 46px 16px rgba(255,110,45,.2);
+}
+/* 内焰：明亮橙黄 */
+.flame__inner{
+  width:64%;height:72%;
+  border-radius:50% 50% 50% 50%/66% 66% 34% 34%;
+  background:radial-gradient(ellipse at 50% 80%,#ffe6a8 0%,#ffc060 60%,rgba(255,160,60,0) 100%);
+}
+/* 焰心：亮白偏淡蓝 */
+.flame__core{
+  width:34%;height:44%;
+  border-radius:50% 50% 50% 50%/60% 60% 40% 40%;
+  background:radial-gradient(ellipse at 50% 75%,#fffdf2 0%,#d8ecff 70%,rgba(200,225,255,0) 100%);
+}
+
+/* 吹灭：火焰快速缩小熄灭，而非直接消失 */
+.candle.is-out .candle__flame{animation:flameOut .32s ease-in forwards}
+
+/* 烟雾：吹灭后上升、扩散、淡出 */
 .candle__smoke{
-  position:absolute;left:50%;bottom:calc(100% + 2px);
-  width:14px;height:26px;
+  position:absolute;left:50%;bottom:calc(100% + 4px);
+  width:12px;height:20px;
   transform:translateX(-50%);
   border-radius:50%;
-  background:radial-gradient(ellipse,rgba(218,212,205,.45),transparent 70%);
+  background:radial-gradient(ellipse,rgba(220,214,208,.5),transparent 72%);
   filter:blur(3px);
-  opacity:0;
-  pointer-events:none;
+  opacity:0;pointer-events:none;
 }
-.candle.is-out .candle__smoke{animation:smoke 1.9s ease-out forwards}
+.candle.is-out .candle__smoke{animation:smokeRise 2s ease-out .12s forwards}
 
 .wish__actions{margin-top:clamp(26px,4vh,38px);min-height:56px}
 .wish__tip{
@@ -549,7 +637,7 @@ a{color:inherit}
   transition:color .6s ease;
 }
 .wish.is-wished .wish__tip{color:rgba(233,200,143,.92)}
-.wish.is-wished .cake__glow{opacity:.3}
+.wish.is-wished .cake__glow{opacity:.12;animation-play-state:paused}
 
 .wish__again{
   margin-top:18px;
@@ -633,11 +721,11 @@ a{color:inherit}
   word-break:break-all;
   overflow-wrap:anywhere;
   -webkit-overflow-scrolling:touch;
-  color:rgba(246,236,221,.07);
+  color:rgba(246,236,221,.22);
   -webkit-user-select:text;user-select:text;
   transition:color .35s ease;
 }
-.secret:hover{color:rgba(246,236,221,.42)}
+.secret:hover{color:rgba(246,236,221,.55)}
 
 .confetti{
   position:fixed;inset:0;z-index:80;
@@ -673,15 +761,25 @@ a{color:inherit}
   0%,100%{height:3px}
   50%{height:11px}
 }
-@keyframes flicker{
-  0%{transform:translateX(-50%) rotate(-3deg) scaleY(1)}
-  35%{transform:translateX(-50%) rotate(3deg) scaleY(1.08)}
-  65%{transform:translateX(-50%) rotate(-2deg) scaleY(.94)}
-  100%{transform:translateX(-50%) rotate(2deg) scaleY(1.04)}
+@keyframes glowPulse{
+  0%,100%{opacity:.85;transform:translate(-50%,50%) scale(1)}
+  50%{opacity:1;transform:translate(-50%,50%) scale(1.08)}
 }
-@keyframes smoke{
-  0%{opacity:.75;transform:translate(-50%,0) scale(.55)}
-  100%{opacity:0;transform:translate(-50%,-52px) scale(1.6)}
+@keyframes flameFlicker{
+  0%{transform:translateX(-50%) rotate(-4deg) scale(1,.96)}
+  30%{transform:translateX(-50%) rotate(3deg) scale(1.02,1.08)}
+  60%{transform:translateX(-50%) rotate(-2deg) scale(.98,.94)}
+  100%{transform:translateX(-50%) rotate(3.5deg) scale(1.02,1.05)}
+}
+@keyframes flameOut{
+  0%{opacity:1;transform:translateX(-50%) scale(1,1)}
+  60%{opacity:.7;transform:translateX(-50%) scale(.7,.5)}
+  100%{opacity:0;transform:translateX(-50%) scale(.3,.1)}
+}
+@keyframes smokeRise{
+  0%{opacity:0;transform:translate(-50%,0) scale(.5)}
+  20%{opacity:.7}
+  100%{opacity:0;transform:translate(-50%,-56px) scale(1.7)}
 }
 
 /* ---------- 响应式 ---------- */
