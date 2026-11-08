@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin="">
 <!-- 字体异步加载：CDN 慢或打不开时不会卡住渲染，直接回落到系统楷体；加载失败则移除该样式表 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css" media="print" onload="this.media='all'" onerror="this.remove()">
-<link rel="stylesheet" href="css/style.css?v=20261109d">
+<link rel="stylesheet" href="css/style.css?v=20261109e">
 <noscript><style>
 .reveal{opacity:1!important;transform:none!important}
 .film--reveal .film__frame{clip-path:none!important}
@@ -31,10 +31,24 @@
 <div class="cursor" id="cursor" aria-hidden="true"></div>
 <div class="grain" aria-hidden="true"></div>
 
+<!-- 背景音乐：循环播放，视频出声时自动暂停 -->
+<audio id="bgm" src="assets/audio/bgm.m4a" loop preload="auto" aria-hidden="true"></audio>
+
 <div class="topbar">
   <span class="topbar__mark">For&nbsp;You</span>
-  <!-- 修改这里：右上角的日期 -->
-  <span class="topbar__date">2026 / 11 / 22</span>
+  <div class="topbar__controls">
+    <!-- 全局声音开关：同时控制背景音乐与视频声音 -->
+    <button class="topbar__sound" id="globalSound" type="button" aria-label="关闭声音" aria-pressed="false">
+      <svg class="ic-sound" viewBox="0 0 24 24" aria-hidden="true">
+        <path class="ic-sound__spk" d="M4 9v6h4l5 4V5L8 9H4z"/>
+        <path class="ic-sound__wave" d="M16.5 8.5a5 5 0 0 1 0 7"/>
+        <path class="ic-sound__wave2" d="M19 6a8.5 8.5 0 0 1 0 12"/>
+      </svg>
+      <span class="ic-sound__mute" aria-hidden="true"></span>
+    </button>
+    <!-- 修改这里：右上角的日期 -->
+    <span class="topbar__date">2026 / 11 / 22</span>
+  </div>
 </div>
 
 <main>
@@ -76,7 +90,7 @@
   <!-- ========== 第一段影像 ========== -->
   <section class="film film--classic film--reveal" data-film>
     <div class="film__frame">
-      <video class="film__video" data-video src="assets/videos/video-1.mp4" loop playsinline webkit-playsinline preload="metadata" aria-label="第一段循环播放的生日影像"></video>
+      <video class="film__video" data-video src="assets/videos/video-1.mp4" playsinline webkit-playsinline preload="metadata" aria-label="第一段生日影像"></video>
 
       <button class="film__sound" type="button" aria-label="关闭声音" aria-pressed="false" data-sound>
         <span class="film__eq" aria-hidden="true"><b></b><b></b><b></b></span>
@@ -108,7 +122,7 @@
   <!-- ========== 第二段影像 ========== -->
   <section class="film film--wide film--right" data-film>
     <div class="film__frame">
-      <video class="film__video" data-video src="assets/videos/video-2.mp4" loop playsinline webkit-playsinline preload="metadata" aria-label="第二段循环播放的生日影像"></video>
+      <video class="film__video" data-video src="assets/videos/video-2.mp4" playsinline webkit-playsinline preload="metadata" aria-label="第二段生日影像"></video>
 
       <button class="film__sound" type="button" aria-label="关闭声音" aria-pressed="false" data-sound>
         <span class="film__eq" aria-hidden="true"><b></b><b></b><b></b></span>
@@ -216,7 +230,7 @@
 
 <canvas class="confetti" id="confetti" aria-hidden="true"></canvas>
 
-<script src="js/main.js?v=20261109d"></script>
+<script src="js/main.js?v=20261109e"></script>
 
 
 </body></html>

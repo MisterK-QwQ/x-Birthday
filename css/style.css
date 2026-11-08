@@ -118,6 +118,39 @@ a{color:inherit}
 }
 .topbar__mark{font-family:var(--serif);letter-spacing:.28em;color:rgba(233,200,143,.72);font-size:12px}
 
+/* 右侧控件：全局声音开关 + 日期 */
+.topbar__controls{display:flex;align-items:center;gap:14px}
+.topbar__sound{
+  position:relative;
+  pointer-events:auto;
+  width:30px;height:30px;
+  display:grid;place-items:center;
+  padding:0;border:0;background:none;cursor:pointer;
+  color:rgba(246,236,221,.72);
+  border-radius:50%;
+  transition:color .3s ease,background .3s ease,transform .2s ease;
+}
+.topbar__sound:hover{color:var(--gold);background:rgba(233,200,143,.1)}
+.topbar__sound:active{transform:scale(.9)}
+.ic-sound{width:17px;height:17px;overflow:visible}
+.ic-sound__spk{fill:currentColor}
+.ic-sound__wave,.ic-sound__wave2{
+  fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;
+  transition:opacity .25s ease;
+}
+.ic-sound__mute{
+  position:absolute;left:50%;top:50%;
+  width:18px;height:1.6px;margin:0;
+  background:currentColor;border-radius:2px;
+  transform:translate(-50%,-50%) rotate(-45deg);
+  opacity:0;transition:opacity .25s ease;
+}
+/* 静音态：声波淡出，静音斜线出现 */
+body.sound-off .ic-sound__wave,
+body.sound-off .ic-sound__wave2{opacity:0}
+body.sound-off .ic-sound__mute{opacity:1}
+body.sound-off .topbar__sound{color:rgba(246,236,221,.5)}
+
 /* ---------- 首屏 ---------- */
 .hero{
   position:relative;z-index:2;

@@ -236,150 +236,142 @@
     });
   }
 
-  /* ---------------- 视频 ---------------- */
+  /* ---------------- 音频中枢：背景音乐 + 视频，统一调度 ---------------- */
+  const bgm = document.getElementById('bgm');
   const videos = Array.from(document.querySelectorAll('[data-video]'));
   const films = Array.from(document.querySelectorAll('[data-film]'));
+  const filmSoundButtons = Array.from(document.querySelectorAll('[data-sound]'));
+  const globalSoundButton = document.getElementById('globalSound');
+  const allSoundButtons = globalSoundButton
+    ? filmSoundButtons.concat(globalSoundButton)
+    : filmSoundButtons;
 
-  // autoplayBlocked：浏览器拒绝过有声自动播放，之后直接静音起播，不再反复撞拦截
-  // userSoundChoice：用户手动选过声音 'on' / 'off'，优先级最高
-  let autoplayBlocked = false;
-  let userSoundChoice = null;
+  // soundOn：用户期望的全局声音开关；needUnlock：有声自动播放被拦，等待首次手势
+  let soundOn = true;
+  let needUnlock = false;
 
-  const syncSoundUI = (video) => {
-    const film = video.closest('.film');
-    const button = film ? film.querySelector('[data-sound]') : null;
-    if (!button) return;
-    const text = video.muted ? '开启声音' : '关闭声音';
-    button.classList.toggle('is-off', video.muted);
-    button.setAttribute('aria-label', text);
-    button.setAttribute('aria-pressed', String(video.muted));
-    const label = button.querySelector('.film__sound-text');
-    if (label) label.textContent = text;
+  // 安全播放：静音自动播放始终允许；有声被拦时记下等手势，不抛未捕获异常
+  const safePlay = (media) => {
+    const attempt = media.play();
+    if (attempt && typeof attempt.catch === 'function') {
+      attempt.catch((err) => {
+        if (err && err.name === 'NotAllowedError') needUnlock = true;
+      });
+    }
+    return attempt;
   };
 
-  // 按当前状态决定静音与否并播放；失败时静音兜底，绝不把用户卡在黑屏
-  const applyPlay = (video, film) => {
-    if (userSoundChoice === 'on') video.muted = false;
-    else if (userSoundChoice === 'off') video.muted = true;
-    else video.muted = autoplayBlocked;
-
-    syncSoundUI(video);
-    const attempt = video.play();
-    if (!attempt || typeof attempt.then !== 'function') {
-      film.classList.remove('is-paused');
-      return;
-    }
-
-    attempt.then(() => {
-      film.classList.remove('is-paused');
-    }).catch(() => {
-      if (video.muted) {
-        film.classList.add('is-paused');
-        return;
-      }
-      // 有声播放被拦：记住，静音再试一次
-      autoplayBlocked = true;
-      userSoundChoice = null;
-      video.muted = true;
-      syncSoundUI(video);
-      const silent = video.play();
-      if (silent && typeof silent.catch === 'function') {
-        silent.catch(() => film.classList.add('is-paused'));
-      }
+  // 同步所有声音按钮的状态、文案与无障碍属性
+  const syncSoundUI = () => {
+    document.body.classList.toggle('sound-off', !soundOn);
+    allSoundButtons.forEach((button) => {
+      button.classList.toggle('is-off', !soundOn);
+      button.setAttribute('aria-pressed', String(!soundOn));
+      button.setAttribute('aria-label', soundOn ? '关闭声音' : '开启声音');
+    });
+    filmSoundButtons.forEach((button) => {
+      const text = button.querySelector('.film__sound-text');
+      if (text) text.textContent = soundOn ? '关闭声音' : '开启声音';
     });
   };
 
+  /* 统一调度：决定此刻谁出声
+     全局关闭：BGM 暂停、视频静音（画面继续）
+     全局开启且有视频在播放：把声音让给视频，BGM 暂停
+     其余情况：BGM 播放 */
+  const updateAudio = () => {
+    syncSoundUI();
+    if (!soundOn) {
+      if (bgm) bgm.pause();
+      videos.forEach((video) => { video.muted = true; });
+      return;
+    }
+    videos.forEach((video) => { video.muted = false; });
+    const videoPlaying = videos.some((video) => !video.paused && !video.ended);
+    if (videoPlaying) {
+      if (bgm) bgm.pause();
+    } else if (bgm) {
+      safePlay(bgm);
+    }
+  };
+
+  const toggleSound = () => {
+    soundOn = !soundOn;
+    needUnlock = false; // 点击本身就是有效手势
+    updateAudio();
+  };
+  allSoundButtons.forEach((button) => button.addEventListener('click', toggleSound));
+
+  /* 每个视频：单次播放，结束显示"再看一次"，状态变化同步调度 */
   videos.forEach((video) => {
     const film = video.closest('.film');
-    const playButton = film.querySelector('.film__play');
-    const soundButton = film.querySelector('[data-sound]');
     const note = film.querySelector('.film__note');
+    const playText = film.querySelector('.film__play-text');
 
     video.muted = false;
-    syncSoundUI(video);
 
-    video.addEventListener('playing', () => film.classList.remove('is-paused'));
-    video.addEventListener('pause', () => film.classList.add('is-paused'));
+    video.addEventListener('play', () => {
+      film.classList.remove('is-paused', 'is-ended');
+      if (playText) playText.textContent = '播放';
+      updateAudio();
+    });
+    video.addEventListener('pause', () => {
+      film.classList.add('is-paused');
+      updateAudio();
+    });
+    video.addEventListener('ended', () => {
+      film.classList.add('is-paused', 'is-ended');
+      if (playText) playText.textContent = '再看一次';
+      updateAudio();
+    });
     video.addEventListener('error', () => {
       if (note) note.hidden = false;
     });
 
+    // 播放/重播按钮：从头播一次
+    const playButton = film.querySelector('.film__play');
     if (playButton) {
-      playButton.addEventListener('click', () => applyPlay(video, film));
-    }
-
-    if (soundButton) {
-      soundButton.addEventListener('click', () => {
-        const wantMuted = !video.muted;
-
-        // 同一时间只允许一个视频出声，其余全部静音
-        videos.forEach((other) => {
-          if (other === video) return;
-          other.muted = true;
-          syncSoundUI(other);
-        });
-
-        video.muted = wantMuted;
-        userSoundChoice = wantMuted ? 'off' : 'on';
-        autoplayBlocked = false;
-        syncSoundUI(video);
-
-        if (video.paused) applyPlay(video, film);
+      playButton.addEventListener('click', () => {
+        video.currentTime = 0;
+        safePlay(video);
       });
     }
   });
 
-  // 进入视口才播放，离开就暂停，避免两个视频同时占带宽
+  /* 进入视口播放一次，离开即暂停；再次进入若已结束则重播。
+     直接观察视频画面，避免文字区还在视口、画面已离屏时不暂停 */
   if ('IntersectionObserver' in window) {
     const videoObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        const film = entry.target;
-        const video = film.querySelector('[data-video]');
-        if (!video) return;
+        const video = entry.target;
+        const film = video.closest('.film');
+        if (!film) return;
 
         if (entry.isIntersecting) {
-          films.forEach((other) => {
-            if (other === film) return;
-            const otherVideo = other.querySelector('[data-video]');
-            if (otherVideo && !otherVideo.paused) otherVideo.pause();
-          });
-          applyPlay(video, film);
+          if (video.ended) video.currentTime = 0;
+          if (video.paused) safePlay(video);
         } else if (!video.paused) {
           video.pause();
         }
+        updateAudio();
       });
     }, { threshold: 0.25 });
-    films.forEach((film) => videoObserver.observe(film));
+    videos.forEach((video) => videoObserver.observe(video));
+  } else {
+    videos.forEach((video) => safePlay(video));
   }
 
-  // 用户还没手动管过声音时，第一次真实手势帮忙把静音补上（浏览器手势上下文允许出声）
-  const unlockSound = (event) => {
-    if (userSoundChoice || !autoplayBlocked) return;
-    const target = event.target;
-    if (target && target.closest && target.closest('button, a, [data-sound], .film__play')) return;
+  // 初始化：首屏没有视频，尝试起 BGM（无手势会被拦，等首次手势）
+  updateAudio();
 
-    const film = films.find((item) => {
-      const rect = item.getBoundingClientRect();
-      return rect.top < window.innerHeight * 0.8 && rect.bottom > window.innerHeight * 0.2;
-    });
-    if (!film) return;
-
-    const video = film.querySelector('[data-video]');
-    if (!video || !video.muted || video.paused) return;
-
-    video.muted = false;
-    const promise = video.play();
-    if (!promise || typeof promise.then !== 'function') return;
-    promise.then(() => {
-      autoplayBlocked = false;
-      syncSoundUI(video);
-    }).catch(() => {
-      video.muted = true;
-      syncSoundUI(video);
-    });
-  };
+  /* 首次真实手势解锁自动播放（手势上下文允许出声） */
   ['pointerdown', 'touchstart', 'keydown'].forEach((type) => {
-    window.addEventListener(type, unlockSound, { passive: true });
+    window.addEventListener(type, () => {
+      if (needUnlock) {
+        needUnlock = false;
+        updateAudio();
+      }
+    }, { passive: true });
   });
 
   /* ---------------- 吹蜡烛 ---------------- */
