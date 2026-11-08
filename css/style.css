@@ -784,33 +784,76 @@ a{color:inherit}
 
 /* ---------- 响应式 ---------- */
 @media (max-width:760px){
+  /* 手机无鼠标，隐藏跟随光晕，避免无意义的布局计算 */
+  .cursor{display:none}
+
+  /* 顶部标记：字号字距收紧一点 */
+  .topbar{font-size:9px;letter-spacing:.26em}
+  .topbar__mark{font-size:11px;letter-spacing:.22em}
+
+  /* 首屏：padding 改用 svh，避免地址栏收缩时跳动 */
+  .hero{padding:clamp(80px,13svh,120px) var(--edge) clamp(84px,14svh,120px)}
   .hero__ring{width:min(88vw,520px)}
   .hero__orb{width:86vw;filter:blur(18px)}
-  .hero__title{font-size:clamp(3.4rem,19vw,6rem)}
+  .hero__title{font-size:clamp(3.2rem,18vw,6rem)}
+  .hero__eyebrow{letter-spacing:.32em;text-indent:.32em}
+  .hero__sub{letter-spacing:.16em;text-indent:.16em}
+  .hero__hint{font-size:11px;letter-spacing:.26em;text-indent:.26em}
 
-  /* 手机竖屏：视频按自身比例铺满宽度，字幕放到底下 */
+  /* 小标签统一：稍大更易读，字距收一点，分隔线缩短 */
+  .section-label{
+    font-size:11px;letter-spacing:.24em;gap:10px;
+    margin-bottom:22px;
+  }
+  .section-label::before{width:24px}
+
+  /* 信件：大幅收紧上下留白，正文收紧行高与段距 */
+  .letter{padding:clamp(60px,9svh,92px) var(--edge)}
+  .letter__title{font-size:clamp(26px,7vw,34px);margin-bottom:24px}
+  .letter__body p{font-size:15px;line-height:1.95;margin-bottom:18px}
+  .letter__body p:first-child{font-size:18px;line-height:1.8}
+  .letter__sign{margin-top:30px;font-size:16px}
+
+  /* 影像：紧凑上下留白，视频按自身比例铺满宽度，字幕放下方 */
   .film{
     min-height:0;
-    padding:clamp(72px,11vh,104px) 0 clamp(56px,9vh,74px);
-    gap:clamp(18px,3vh,26px);
+    padding:clamp(56px,8svh,80px) 0 clamp(44px,6svh,60px);
+    gap:20px;
   }
   .film__frame{width:100%}
   .film__caption{width:100%;margin:0;padding:0 var(--edge)}
+  .film__caption h2{font-size:clamp(22px,6.5vw,28px);line-height:1.5}
+  .film--right .film__caption h2{font-size:clamp(22px,6.5vw,28px)}
   .film--right .film__caption{text-align:left}
   .film--right .section-label{flex-direction:row}
-  .film__play{width:64px;height:64px;margin:-32px 0 0 -32px}
-  .film__sound{top:10px;right:10px;padding:8px 12px;font-size:9px}
+  .film__play{width:60px;height:60px;margin:-30px 0 0 -30px}
+  /* 声音按钮：加大点击区，文字不挤 */
+  .film__sound{top:10px;right:10px;padding:10px 14px;font-size:10px;gap:8px}
   .film__note{margin:0}
   .film--reveal .film__frame{clip-path:inset(6% 3% 6% 3%)}
-  .secret{font-size:7px;line-height:1.8;margin-bottom:calc(12px + env(safe-area-inset-bottom))}
 
-  .letter__body p{line-height:2.05}
+  /* 跑马灯：收紧上下留白与字距 */
+  .marquee{padding:30px 0}
+  .marquee__track{letter-spacing:.2em;gap:24px}
+
+  /* 许愿：收紧留白与蛋糕上间距 */
+  .wish{padding:clamp(64px,10svh,92px) var(--edge) clamp(72px,11svh,100px)}
+  .wish__title{font-size:clamp(25px,7vw,32px)}
+  .cake{margin-top:44px}
+  .wish__actions{margin-top:28px}
+
+  /* 结尾：收紧留白，字距收一点 */
+  .finale{padding:clamp(72px,11svh,100px) var(--edge) clamp(56px,8svh,80px)}
+  .finale__title{font-size:clamp(28px,8vw,38px)}
+  .finale__sign{letter-spacing:.2em;text-indent:.2em}
+
+  .secret{font-size:7px;line-height:1.8;margin-bottom:calc(12px + env(safe-area-inset-bottom))}
 }
 
 @media (max-width:400px){
-  .hero__sub{letter-spacing:.16em;text-indent:.16em}
   .cake{width:min(260px,76vw)}
   .candle{width:28px}
+  .film__sound{padding:9px 12px;font-size:10px}
 }
 
 @media (prefers-reduced-motion:reduce){
