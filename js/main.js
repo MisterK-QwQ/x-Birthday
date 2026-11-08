@@ -238,6 +238,8 @@
 
   /* ---------------- 音频中枢：背景音乐 + 视频，统一调度 ---------------- */
   const bgm = document.getElementById('bgm');
+  // BGM 压低音量做背景氛围，不抢视频；视频音量保持 1.0
+  if (bgm) bgm.volume = 0.35;
   const videos = Array.from(document.querySelectorAll('[data-video]'));
   const films = Array.from(document.querySelectorAll('[data-film]'));
   const filmSoundButtons = Array.from(document.querySelectorAll('[data-sound]'));
