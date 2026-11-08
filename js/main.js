@@ -223,6 +223,19 @@
   window.addEventListener('resize', onScroll);
   renderScroll();
 
+  /* ---------------- 回到开头：JS 平滑回顶，避免 hash 残留与重复点击失效 ---------------- */
+  const backTop = document.querySelector('.finale__top');
+  if (backTop) {
+    backTop.addEventListener('click', (event) => {
+      event.preventDefault();
+      if (reduce) {
+        window.scrollTo(0, 0);
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
+  }
+
   /* ---------------- 视频 ---------------- */
   const videos = Array.from(document.querySelectorAll('[data-video]'));
   const films = Array.from(document.querySelectorAll('[data-film]'));
