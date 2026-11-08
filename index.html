@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>生日快乐</title>
+<meta name="description" content="生日快乐。两段片子，几句真心话。">
+<meta name="theme-color" content="#08070c">
+
+<!-- 社交分享卡片 -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="生日快乐">
+<meta property="og:description" content="两段片子，几句真心话。">
+<meta property="og:locale" content="zh_CN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="生日快乐">
+<meta name="twitter:description" content="两段片子，几句真心话。">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='12' fill='%23e9c88f'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin="">
+<!-- 字体异步加载：CDN 慢或打不开时不会卡住渲染，直接回落到系统楷体；加载失败则移除该样式表 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css" media="print" onload="this.media='all'" onerror="this.remove()">
+<link rel="stylesheet" href="css/style.css">
+<noscript><style>
+.reveal{opacity:1!important;transform:none!important}
+.film--reveal .film__frame{clip-path:none!important}
+</style></noscript>
+</head>
+<body id="top">
+
+<div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+<div class="cursor" id="cursor" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<div class="topbar">
+  <span class="topbar__mark">For&nbsp;You</span>
+  <!-- 修改这里：右上角的日期 -->
+  <span class="topbar__date">11 / 08</span>
+</div>
+
+<main>
+
+  <!-- ========== 首屏 ========== -->
+  <section class="hero">
+    <canvas class="hero__sky" id="sky" aria-hidden="true" width="890" height="1052"></canvas>
+    <div class="hero__orb" aria-hidden="true"></div>
+    <div class="hero__ring" aria-hidden="true"></div>
+
+    <div class="hero__content">
+      <!-- 修改这里：眉标（寿星称呼） -->
+      <p class="hero__eyebrow">致 · 肖</p>
+      <h1 class="hero__title">生日快乐</h1>
+      <div class="hero__rule" aria-hidden="true"></div>
+      <p class="hero__sub">肖，往后的日子少一些烦恼，多一些期待。</p>
+      <p class="hero__hint">往下滑</p>
+    </div>
+
+    <div class="hero__scroll" aria-hidden="true"><span></span></div>
+  </section>
+
+  <!-- ========== 说两句 ========== -->
+  <section class="letter">
+    <div class="letter__inner">
+      <p class="section-label reveal">01 &nbsp;/&nbsp; 说两句</p>
+      <h2 class="letter__title reveal" style="--d:80ms">生日快乐</h2>
+
+      <div class="letter__body">
+        <p class="reveal" style="--d:120ms">你可是卡密！</p>
+        <p class="reveal" style="--d:200ms">卡密是最强的，最牛逼，最让人信服，让人着迷的存在！</p>
+        <p class="reveal" style="--d:280ms">卡密天天开心永远不死永远幸福！</p>
+      </div>
+
+      <p class="letter__sign reveal" style="--d:360ms">—— 谢</p>
+    </div>
+  </section>
+
+  <!-- ========== 第一段影像 ========== -->
+  <section class="film film--classic film--reveal" data-film>
+    <div class="film__frame">
+      <video class="film__video" data-video src="assets/videos/video-1.mp4" loop playsinline webkit-playsinline preload="metadata" aria-label="第一段循环播放的生日影像"></video>
+
+      <button class="film__sound" type="button" aria-label="关闭声音" aria-pressed="false" data-sound>
+        <span class="film__eq" aria-hidden="true"><b></b><b></b><b></b></span>
+        <span class="film__sound-text">关闭声音</span>
+      </button>
+
+      <button class="film__play" type="button" aria-label="播放">
+        <span class="film__play-icon" aria-hidden="true"></span>
+        <span class="film__play-text" aria-hidden="true">播放</span>
+      </button>
+    </div>
+
+    <div class="film__caption">
+      <p class="section-label reveal">02 &nbsp;/&nbsp; 第一段影像</p>
+      <h2 class="reveal" style="--d:100ms">过生日嘛，就是找个理由，<br>接着好好往下走。</h2>
+    </div>
+
+    <p class="film__note" hidden>视频没加载出来，检查一下 assets/videos/video-1.mp4</p>
+  </section>
+
+  <!-- ========== 跑马灯 ========== -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      <span>少熬夜</span><i>·</i><span>别委屈自己</span><i>·</i><span>想做什么就做什么</span><i>·</i><span>火鸡面大王</span><i>·</i>
+      <span>少熬夜</span><i>·</i><span>别委屈自己</span><i>·</i><span>想做什么就做什么</span><i>·</i><span>火鸡面大王</span><i>·</i>
+    </div>
+  </div>
+
+  <!-- ========== 第二段影像 ========== -->
+  <section class="film film--wide film--right" data-film>
+    <div class="film__frame">
+      <video class="film__video" data-video src="assets/videos/video-2.mp4" loop playsinline webkit-playsinline preload="metadata" aria-label="第二段循环播放的生日影像"></video>
+
+      <button class="film__sound" type="button" aria-label="关闭声音" aria-pressed="false" data-sound>
+        <span class="film__eq" aria-hidden="true"><b></b><b></b><b></b></span>
+        <span class="film__sound-text">关闭声音</span>
+      </button>
+
+      <button class="film__play" type="button" aria-label="播放">
+        <span class="film__play-icon" aria-hidden="true"></span>
+        <span class="film__play-text" aria-hidden="true">播放</span>
+      </button>
+    </div>
+
+    <div class="film__caption">
+      <p class="section-label reveal">03 &nbsp;/&nbsp; 第二段影像</p>
+      <h2 class="reveal" style="--d:100ms">结局又不是定死的，<br>能改。</h2>
+    </div>
+
+    <p class="film__note" hidden>视频没加载出来，检查一下 assets/videos/video-2.mp4</p>
+  </section>
+
+  <!-- ========== 许愿 ========== -->
+  <section class="wish" id="wish">
+    <p class="section-label reveal">04 &nbsp;/&nbsp; 许一个愿</p>
+    <h2 class="wish__title reveal" style="--d:80ms">吹灭蜡烛之前，<br>先闭上眼睛。</h2>
+
+    <div class="cake" id="cake" role="group" aria-label="生日蛋糕">
+      <div class="cake__glow" aria-hidden="true"></div>
+      <div class="cake__plate" aria-hidden="true"></div>
+      <div class="cake__tier cake__tier--bottom" aria-hidden="true"></div>
+      <div class="cake__tier cake__tier--mid" aria-hidden="true"></div>
+      <div class="cake__tier cake__tier--top" aria-hidden="true"></div>
+
+      <div class="cake__candles">
+        <button class="candle" type="button" aria-label="吹灭第 1 根蜡烛" aria-pressed="false"><span class="candle__flame"></span><span class="candle__smoke"></span></button>
+        <button class="candle" type="button" aria-label="吹灭第 2 根蜡烛" aria-pressed="false"><span class="candle__flame"></span><span class="candle__smoke"></span></button>
+        <button class="candle" type="button" aria-label="吹灭第 3 根蜡烛" aria-pressed="false"><span class="candle__flame"></span><span class="candle__smoke"></span></button>
+        <button class="candle" type="button" aria-label="吹灭第 4 根蜡烛" aria-pressed="false"><span class="candle__flame"></span><span class="candle__smoke"></span></button>
+        <button class="candle" type="button" aria-label="吹灭第 5 根蜡烛" aria-pressed="false"><span class="candle__flame"></span><span class="candle__smoke"></span></button>
+      </div>
+    </div>
+
+    <div class="wish__actions">
+      <p class="wish__tip" id="wishTip" aria-live="polite">点一下蜡烛，许个愿吧</p>
+      <button class="wish__again" id="wishAgain" type="button" hidden="">再许一次</button>
+    </div>
+  </section>
+
+  <!-- ========== 结尾 ========== -->
+  <section class="finale">
+    <div class="finale__glow" aria-hidden="true"></div>
+    <p class="section-label reveal">05 &nbsp;/&nbsp; 最后一句</p>
+    <h2 class="finale__title reveal" style="--d:80ms">新的一岁，<br>别老为难自己。</h2>
+    <p class="finale__sign reveal" style="--d:200ms">生日快乐。以后也一起吃饭。</p>
+    <a class="finale__top reveal" style="--d:320ms" href="#top">回到开头</a>
+  </section>
+
+  <footer class="footer">
+    <span>肖，生日快乐！</span>
+    <span class="footer__dot" aria-hidden="true"></span>
+    <span>2026</span>
+  </footer>
+
+</main>
+
+<canvas class="confetti" id="confetti" aria-hidden="true"></canvas>
+
+<script src="js/main.js"></script>
+
+
+</body></html>
