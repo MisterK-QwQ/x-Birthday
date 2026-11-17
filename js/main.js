@@ -1,6 +1,6 @@
 /* =========================================================
    生日快乐 · 交互
-   1. 滚动出现 / 影像入场  2. 首屏星空（离屏自动暂停）
+   1. 滚动出现 / 影像入场  2. 首屏烟火见 fireworks.js
    3. 视频控制（自动播放状态机，不反复触发拦截）
    4. 吹蜡烛许愿 + 撒花  5. 鼠标光晕  6. 滚动进度
    ========================================================= */
@@ -43,129 +43,6 @@
 
   observeOnce('.reveal', { threshold: 0.16, rootMargin: '0px 0px -6% 0px' });
   observeOnce('.film--reveal', { threshold: 0.24 });
-
-  /* ---------------- 首屏星空 ---------------- */
-  const sky = document.getElementById('sky');
-  if (sky && !reduce) {
-    const ctx = sky.getContext('2d');
-    let width = 0, height = 0, stars = [], orbs = [], shoot = null;
-    let lastTime = 0, nextShoot = 2600;
-
-    const resizeSky = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      width = sky.clientWidth;
-      height = sky.clientHeight;
-      sky.width = Math.round(width * dpr);
-      sky.height = Math.round(height * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-      const count = width < 720 ? 44 : 96;
-      stars = Array.from({ length: count }, () => ({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        r: Math.random() * 1.3 + 0.3,
-        alpha: Math.random() * 0.55 + 0.18,
-        speed: Math.random() * 0.12 + 0.03,
-        phase: Math.random() * Math.PI * 2,
-        warm: Math.random() > 0.76
-      }));
-
-      orbs = Array.from({ length: 3 }, (_, i) => ({
-        x: width * (0.2 + 0.3 * i),
-        y: height * (0.34 + 0.18 * (i % 2)),
-        r: Math.min(width, height) * (0.2 + 0.11 * i)
-      }));
-    };
-
-    const drawSky = (time) => {
-      if (!lastTime) lastTime = time;
-      const dt = Math.min(32, time - lastTime);
-      lastTime = time;
-      ctx.clearRect(0, 0, width, height);
-
-      // 柔光雾
-      orbs.forEach((orb, i) => {
-        const cx = orb.x + Math.sin(time / 9000 + i * 1.7) * 24;
-        const cy = orb.y + Math.cos(time / 11000 + i * 1.3) * 18;
-        const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, orb.r);
-        grad.addColorStop(0, 'rgba(201,111,123,.10)');
-        grad.addColorStop(0.55, 'rgba(233,200,143,.045)');
-        grad.addColorStop(1, 'rgba(0,0,0,0)');
-        ctx.fillStyle = grad;
-        ctx.beginPath();
-        ctx.arc(cx, cy, orb.r, 0, Math.PI * 2);
-        ctx.fill();
-      });
-
-      // 星尘
-      stars.forEach((star) => {
-        star.y -= star.speed * dt * 0.06;
-        if (star.y < -4) {
-          star.y = height + 4;
-          star.x = Math.random() * width;
-        }
-        const twinkle = 0.6 + 0.4 * Math.sin(time * 0.0012 + star.phase);
-        ctx.beginPath();
-        ctx.fillStyle = star.warm
-          ? `rgba(233,200,143,${(star.alpha * twinkle).toFixed(3)})`
-          : `rgba(246,236,221,${(star.alpha * twinkle).toFixed(3)})`;
-        ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
-        ctx.fill();
-      });
-
-      // 偶发流星
-      if (!shoot && time > nextShoot) {
-        shoot = {
-          x: width * (0.25 + Math.random() * 0.55),
-          y: height * (0.08 + Math.random() * 0.3),
-          vx: 4.2 + Math.random() * 2,
-          vy: 1.4 + Math.random() * 0.8,
-          life: 1
-        };
-      }
-      if (shoot) {
-        const tailX = shoot.x - shoot.vx * 26;
-        const tailY = shoot.y - shoot.vy * 26;
-        const line = ctx.createLinearGradient(shoot.x, shoot.y, tailX, tailY);
-        line.addColorStop(0, `rgba(255,247,232,${0.85 * shoot.life})`);
-        line.addColorStop(1, 'rgba(233,200,143,0)');
-        ctx.strokeStyle = line;
-        ctx.lineWidth = 1.4;
-        ctx.beginPath();
-        ctx.moveTo(shoot.x, shoot.y);
-        ctx.lineTo(tailX, tailY);
-        ctx.stroke();
-
-        shoot.x += shoot.vx * dt * 0.12;
-        shoot.y += shoot.vy * dt * 0.12;
-        shoot.life -= dt * 0.0011;
-        if (shoot.life <= 0 || shoot.x > width + 80 || shoot.y > height + 80) {
-          shoot = null;
-          nextShoot = time + 4200 + Math.random() * 5200;
-        }
-      }
-    };
-
-    const skyLoop = createLoop(drawSky);
-    resizeSky();
-    window.addEventListener('resize', resizeSky);
-    skyLoop.start();
-
-    // 首屏滚出视口后停掉星空循环，省电省性能；滚回来再恢复
-    const hero = sky.closest('.hero');
-    if (hero && 'IntersectionObserver' in window) {
-      new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            lastTime = 0;
-            skyLoop.start();
-          } else {
-            skyLoop.stop();
-          }
-        });
-      }, { threshold: 0.02 }).observe(hero);
-    }
-  }
 
   /* ---------------- 鼠标光晕 ---------------- */
   if (finePointer && !reduce) {
@@ -380,35 +257,69 @@
   const wish = document.getElementById('wish');
   const wishTip = document.getElementById('wishTip');
   const wishAgain = document.getElementById('wishAgain');
+  const blowAll = document.getElementById('blowAll');
   const candles = Array.from(document.querySelectorAll('.candle'));
   let blownOut = 0;
+  let blowTimers = [];
+  let draggingCandles = false;
 
   const celebrate = () => {
     if (wish) wish.classList.add('is-wished');
     if (wishTip) wishTip.textContent = '许好啦，接下来就看你的了。';
     if (wishAgain) wishAgain.hidden = false;
+    if (blowAll) blowAll.hidden = true;
     burstConfetti();
   };
 
+  const blowCandle = (candle) => {
+    if (!candle || candle.classList.contains('is-out')) return;
+    candle.classList.add('is-out');
+    candle.setAttribute('aria-pressed', 'true');
+    blownOut += 1;
+    if (wishTip && blownOut < candles.length) wishTip.textContent = `还剩 ${candles.length - blownOut} 根蜡烛。`;
+    if (blownOut === candles.length) celebrate();
+  };
+
   candles.forEach((candle) => {
-    candle.addEventListener('click', () => {
-      if (candle.classList.contains('is-out')) return;
-      candle.classList.add('is-out');
-      candle.setAttribute('aria-pressed', 'true');
-      blownOut += 1;
-      if (blownOut === candles.length) celebrate();
+    candle.addEventListener('click', () => blowCandle(candle));
+    candle.addEventListener('pointerdown', () => {
+      draggingCandles = true;
+      blowCandle(candle);
+    });
+  });
+
+  window.addEventListener('pointermove', (event) => {
+    if (!draggingCandles) return;
+    const target = document.elementFromPoint(event.clientX, event.clientY);
+    blowCandle(target && target.closest('.candle'));
+  });
+  ['pointerup', 'pointercancel'].forEach((type) => window.addEventListener(type, () => { draggingCandles = false; }));
+
+  if (blowAll) blowAll.addEventListener('click', () => {
+    if (blowAll.disabled) return;
+    blowAll.disabled = true;
+    wish.classList.add('is-blowing');
+    const pending = candles.filter((candle) => !candle.classList.contains('is-out'));
+    pending.forEach((candle, index) => {
+      blowTimers.push(setTimeout(() => {
+        blowCandle(candle);
+        if (index === pending.length - 1) wish.classList.remove('is-blowing');
+      }, index * 220 + 280));
     });
   });
 
   if (wishAgain) {
     wishAgain.addEventListener('click', () => {
+      blowTimers.forEach(clearTimeout);
+      blowTimers = [];
       candles.forEach((candle) => {
         candle.classList.remove('is-out');
         candle.setAttribute('aria-pressed', 'false');
       });
       blownOut = 0;
-      if (wish) wish.classList.remove('is-wished');
+      if (wish) wish.classList.remove('is-wished', 'is-blowing');
       if (wishTip) wishTip.textContent = '点一下蜡烛，许个愿吧';
+      if (blowAll) { blowAll.disabled = false; blowAll.hidden = false; }
       wishAgain.hidden = true;
     });
   }
@@ -460,12 +371,12 @@
     }
   };
 
-  const burstConfetti = () => {
+  const burstConfetti = (source) => {
     if (!confettiCanvas || reduce) return;
     sizeConfetti();
 
     const cake = document.getElementById('cake');
-    const rect = cake ? cake.getBoundingClientRect() : null;
+    const rect = (source || cake) ? (source || cake).getBoundingClientRect() : null;
     const originX = rect ? rect.left + rect.width / 2 : window.innerWidth / 2;
     const originY = rect ? rect.top + rect.height * 0.18 : window.innerHeight / 2;
     const colors = ['#e9c88f', '#fdf3e2', '#c96f7b', '#f6ecdd', '#b9853f'];
@@ -493,5 +404,182 @@
 
   window.addEventListener('resize', () => {
     if (confettiParticles.length) sizeConfetti();
+  });
+
+  /* ---------------- 两个可玩的生日章节 ---------------- */
+  let starCompleted = false;
+  let giftsCompleted = false;
+  const finale = document.querySelector('.finale');
+  const finaleBonus = document.getElementById('finaleBonus');
+  const updateFinale = () => {
+    const unlocked = starCompleted && giftsCompleted;
+    if (finale) finale.classList.toggle('is-unlocked', unlocked);
+    if (finaleBonus) finaleBonus.hidden = !unlocked;
+  };
+
+  let audioContext = null;
+  const playNote = (frequency) => {
+    if (!soundOn || reduce) return;
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return;
+    try {
+      audioContext = audioContext || new AudioContextClass();
+      if (audioContext.state === 'suspended') audioContext.resume().catch(() => {});
+      const oscillator = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+      const now = audioContext.currentTime;
+      oscillator.type = 'sine';
+      oscillator.frequency.setValueAtTime(frequency, now);
+      oscillator.frequency.exponentialRampToValueAtTime(frequency * 1.35, now + 0.14);
+      gain.gain.setValueAtTime(0.001, now);
+      gain.gain.exponentialRampToValueAtTime(0.055, now + 0.025);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+      oscillator.connect(gain).connect(audioContext.destination);
+      oscillator.start(now);
+      oscillator.stop(now + 0.23);
+    } catch (_) {
+      // A blocked audio context never prevents the interaction.
+    }
+  };
+
+  const starSection = document.getElementById('star-game');
+  const starBoard = document.getElementById('starBoard');
+  const starCells = Array.from(document.querySelectorAll('.star-cell'));
+  const starScore = document.getElementById('starScore');
+  const starClock = document.getElementById('starClock');
+  const starStatus = document.getElementById('starStatus');
+  const starStart = document.getElementById('starStart');
+  let starRunning = false;
+  let score = 0;
+  let seconds = 20;
+  let activeCell = null;
+  let lastCell = -1;
+  let spawnTimer = 0;
+  let clockTimer = 0;
+
+  const clearStarCell = (cell) => {
+    if (!cell) return;
+    cell.textContent = '';
+    cell.classList.remove('is-star', 'is-cloud', 'is-hit');
+    cell.disabled = true;
+    cell.setAttribute('aria-label', '空位');
+    delete cell.dataset.kind;
+  };
+
+  const spawnStar = () => {
+    if (!starRunning || document.hidden) return;
+    clearStarCell(activeCell);
+    const offset = Math.floor(Math.random() * (starCells.length - 1)) + 1;
+    const index = (lastCell + offset + starCells.length) % starCells.length;
+    const cell = starCells[index];
+    const kind = Math.random() < 0.22 ? 'cloud' : 'star';
+    lastCell = index;
+    activeCell = cell;
+    cell.dataset.kind = kind;
+    cell.disabled = false;
+    cell.classList.add(kind === 'star' ? 'is-star' : 'is-cloud');
+    cell.textContent = kind === 'star' ? '✦' : '☁';
+    cell.setAttribute('aria-label', kind === 'star' ? '抓住好运星' : '避开乌云');
+  };
+
+  const finishStarRound = (won) => {
+    starRunning = false;
+    clearInterval(spawnTimer);
+    clearInterval(clockTimer);
+    clearStarCell(activeCell);
+    activeCell = null;
+    if (starStart) starStart.innerHTML = '再玩一次 <span aria-hidden="true">↗</span>';
+    if (won) {
+      starCompleted = true;
+      starSection.classList.add('is-won');
+      starStatus.textContent = '好运已装满，送你一整年。';
+      playNote(880);
+      burstConfetti(starBoard);
+      updateFinale();
+    } else {
+      starStatus.textContent = '还差一点，再试一次。';
+    }
+  };
+
+  if (starStart && starCells.length) {
+    starStart.addEventListener('click', () => {
+      clearInterval(spawnTimer);
+      clearInterval(clockTimer);
+      clearStarCell(activeCell);
+      starSection.classList.remove('is-won');
+      starRunning = true;
+      score = 0;
+      seconds = 20;
+      lastCell = -1;
+      starScore.innerHTML = '00 <small>/ 09</small>';
+      starClock.textContent = '20';
+      starStatus.textContent = '好运正在靠近。';
+      starStart.innerHTML = '重新开始 <span aria-hidden="true">↗</span>';
+      spawnStar();
+      spawnTimer = setInterval(spawnStar, 780);
+      clockTimer = setInterval(() => {
+        if (document.hidden) return;
+        seconds -= 1;
+        starClock.textContent = String(seconds).padStart(2, '0');
+        if (seconds <= 0) finishStarRound(false);
+      }, 1000);
+    });
+    starCells.forEach((cell) => cell.addEventListener('click', () => {
+      if (!starRunning || cell !== activeCell) return;
+      const kind = cell.dataset.kind;
+      if (kind === 'star') {
+        score += 1;
+        starStatus.textContent = score >= 9 ? '最后一颗，抓到了！' : '接住一颗好运星。';
+        playNote(500 + score * 40);
+      } else {
+        score = Math.max(0, score - 1);
+        starStatus.textContent = '乌云路过，少了一颗星。';
+        playNote(220);
+      }
+      starScore.innerHTML = `${String(score).padStart(2, '0')} <small>/ 09</small>`;
+      if (score >= 9) finishStarRound(true);
+      else spawnStar();
+    }));
+  }
+
+  const giftsSection = document.getElementById('gifts');
+  const giftBoxes = Array.from(document.querySelectorAll('.gift-box'));
+  const giftCount = document.getElementById('giftCount');
+  const giftStatus = document.getElementById('giftStatus');
+  const giftReset = document.getElementById('giftReset');
+  let openedGifts = 0;
+
+  giftBoxes.forEach((box) => box.addEventListener('click', () => {
+    if (box.classList.contains('is-open')) return;
+    box.classList.add('is-open');
+    box.setAttribute('aria-expanded', 'true');
+    const surprise = box.querySelector('.gift-box__surprise');
+    surprise.setAttribute('aria-hidden', 'false');
+    box.setAttribute('aria-label', surprise.textContent.trim());
+    openedGifts += 1;
+    giftCount.textContent = String(openedGifts).padStart(2, '0');
+    giftReset.hidden = false;
+    playNote(620 + openedGifts * 90);
+    if (openedGifts === giftBoxes.length) {
+      giftsCompleted = true;
+      giftStatus.textContent = '三份惊喜都归你。';
+      burstConfetti(giftsSection);
+      updateFinale();
+    } else {
+      giftStatus.textContent = '还有惊喜没拆开。';
+    }
+  }));
+
+  if (giftReset) giftReset.addEventListener('click', () => {
+    giftBoxes.forEach((box, index) => {
+      box.classList.remove('is-open');
+      box.setAttribute('aria-expanded', 'false');
+      box.setAttribute('aria-label', `拆开第${['一', '二', '三'][index]}份礼物`);
+      box.querySelector('.gift-box__surprise').setAttribute('aria-hidden', 'true');
+    });
+    openedGifts = 0;
+    giftCount.textContent = '00';
+    giftStatus.textContent = '挑一个，先打开看看。';
+    giftReset.hidden = true;
   });
 })();

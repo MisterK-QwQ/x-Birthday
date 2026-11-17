@@ -3,8 +3,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>生日快乐</title>
-<meta name="description" content="生日快乐。两段片子，几句真心话。">
-<meta name="theme-color" content="#08070c">
+<meta name="description" content="生日快乐。两段片子，几句真心话，还有亲手拆开的惊喜。">
+<meta name="theme-color" content="#111a1b">
 
 <!-- 社交分享卡片 -->
 <meta property="og:type" content="website">
@@ -19,7 +19,9 @@
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin="">
 <!-- 字体异步加载：CDN 慢或打不开时不会卡住渲染，直接回落到系统楷体；加载失败则移除该样式表 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css" media="print" onload="this.media='all'" onerror="this.remove()">
-<link rel="stylesheet" href="css/style.css?v=20261109e">
+<link rel="stylesheet" href="css/style.css?v=20261117a">
+<link rel="stylesheet" href="css/showreel.css?v=20261117c">
+<link rel="stylesheet" href="css/play.css?v=20261117c">
 <noscript><style>
 .reveal{opacity:1!important;transform:none!important}
 .film--reveal .film__frame{clip-path:none!important}
@@ -35,7 +37,7 @@
 <audio id="bgm" src="assets/audio/bgm.m4a" loop preload="auto" aria-hidden="true"></audio>
 
 <div class="topbar">
-  <span class="topbar__mark">For&nbsp;You</span>
+  <a class="topbar__mark" href="#top" aria-label="回到首页">For&nbsp;You <span class="topbar__star">✳</span></a>
   <div class="topbar__controls">
     <!-- 全局声音开关：同时控制背景音乐与视频声音 -->
     <button class="topbar__sound" id="globalSound" type="button" aria-label="关闭声音" aria-pressed="false">
@@ -55,9 +57,9 @@
 
   <!-- ========== 首屏 ========== -->
   <section class="hero">
-    <canvas class="hero__sky" id="sky" aria-hidden="true" width="890" height="1052"></canvas>
-    <div class="hero__orb" aria-hidden="true"></div>
-    <div class="hero__ring" aria-hidden="true"></div>
+    <canvas class="hero__sky" id="sky" data-fireworks aria-hidden="true"></canvas>
+    <div class="hero__graphic" aria-hidden="true"><span class="hero__graphic-number">22</span><span class="hero__graphic-cross">✳</span></div>
+    <span class="hero__serial" aria-hidden="true">A PRIVATE BIRTHDAY FILM &nbsp; / &nbsp; 2026</span>
 
     <div class="hero__content">
       <!-- 修改这里：眉标（寿星称呼） -->
@@ -65,14 +67,15 @@
       <h1 class="hero__title">生日快乐</h1>
       <div class="hero__rule" aria-hidden="true"></div>
       <p class="hero__sub">肖，往后的日子少些烦恼，多些快乐。</p>
-      <p class="hero__hint">往下滑</p>
+      <div class="hero__actions"><button class="hero__fire" id="fireworkButton" type="button">点亮夜空 <span aria-hidden="true">✦</span></button><a class="hero__hint" href="#letter">往下滑 <span aria-hidden="true">↘</span></a></div>
     </div>
 
     <div class="hero__scroll" aria-hidden="true"><span></span></div>
   </section>
 
   <!-- ========== 说两句 ========== -->
-  <section class="letter">
+  <section class="letter" id="letter">
+    <span class="letter__watermark" aria-hidden="true">01</span>
     <div class="letter__inner">
       <p class="section-label reveal">01 &nbsp;/&nbsp; 说两句</p>
       <h2 class="letter__title reveal" style="--d:80ms">生日快乐</h2>
@@ -88,9 +91,10 @@
   </section>
 
   <!-- ========== 第一段影像 ========== -->
-  <section class="film film--classic film--reveal" data-film>
+  <section class="film film--classic film--reveal" id="film-one" data-film>
+    <span class="film__index" aria-hidden="true">01 / 02</span>
     <div class="film__frame">
-      <video class="film__video" data-video src="assets/videos/video-1.mp4" playsinline webkit-playsinline preload="metadata" aria-label="第一段生日影像"></video>
+      <video class="film__video" data-video src="assets/videos/video-1.mp4" poster="assets/stills/film-1-b.jpg" playsinline webkit-playsinline preload="metadata" aria-label="第一段生日影像"></video>
 
       <button class="film__sound" type="button" aria-label="关闭声音" aria-pressed="false" data-sound>
         <span class="film__eq" aria-hidden="true"><b></b><b></b><b></b></span>
@@ -111,18 +115,36 @@
     <p class="film__note" hidden>视频没加载出来，检查一下 assets/videos/video-1.mp4</p>
   </section>
 
-  <!-- ========== 跑马灯 ========== -->
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee__track">
-      <span>少熬夜</span><i>·</i><span>别委屈自己</span><i>·</i><span>想做什么就做什么</span><i>·</i><span>火鸡面大王</span><i>·</i>
-      <span>少熬夜</span><i>·</i><span>别委屈自己</span><i>·</i><span>想做什么就做什么</span><i>·</i><span>火鸡面大王</span><i>·</i>
+  <!-- ========== 好运星捕手 ========== -->
+  <section class="star-game" id="star-game">
+    <div class="star-game__intro">
+      <p class="section-label reveal">03 &nbsp;/&nbsp; 好运星捕手</p>
+      <h2 class="star-game__title reveal" style="--d:80ms">今晚的好运，<br>亲手抓住。</h2>
+      <p class="star-game__lead reveal" style="--d:160ms">20 秒，收集 9 颗星。乌云会偷走一颗。</p>
+      <div class="star-game__rule" aria-hidden="true"><span>✦</span><span>✦</span><span>✦</span><span>✦</span><span>✦</span></div>
     </div>
-  </div>
+    <div class="star-game__console">
+      <div class="star-game__hud">
+        <div><span class="star-game__eyebrow">GOOD LUCK</span><strong id="starScore">00 <small>/ 09</small></strong></div>
+        <div class="star-game__timer"><span class="star-game__eyebrow">SECONDS</span><strong id="starClock">20</strong></div>
+      </div>
+      <div class="star-game__board" id="starBoard" role="group" aria-label="好运星捕手">
+        <button class="star-cell" type="button" disabled aria-label="空位"></button><button class="star-cell" type="button" disabled aria-label="空位"></button><button class="star-cell" type="button" disabled aria-label="空位"></button><button class="star-cell" type="button" disabled aria-label="空位"></button>
+        <button class="star-cell" type="button" disabled aria-label="空位"></button><button class="star-cell" type="button" disabled aria-label="空位"></button><button class="star-cell" type="button" disabled aria-label="空位"></button><button class="star-cell" type="button" disabled aria-label="空位"></button>
+        <button class="star-cell" type="button" disabled aria-label="空位"></button><button class="star-cell" type="button" disabled aria-label="空位"></button><button class="star-cell" type="button" disabled aria-label="空位"></button><button class="star-cell" type="button" disabled aria-label="空位"></button>
+      </div>
+      <div class="star-game__controls">
+        <p id="starStatus" role="status">等你开局。</p>
+        <button class="play-command" id="starStart" type="button">开始挑战 <span aria-hidden="true">↗</span></button>
+      </div>
+    </div>
+  </section>
 
   <!-- ========== 第二段影像 ========== -->
   <section class="film film--wide film--right" data-film>
+    <span class="film__index" aria-hidden="true">02 / 02</span>
     <div class="film__frame">
-      <video class="film__video" data-video src="assets/videos/video-2.mp4" playsinline webkit-playsinline preload="metadata" aria-label="第二段生日影像"></video>
+      <video class="film__video" data-video src="assets/videos/video-2.mp4" poster="assets/stills/film-2-a.jpg" playsinline webkit-playsinline preload="metadata" aria-label="第二段生日影像"></video>
 
       <button class="film__sound" type="button" aria-label="关闭声音" aria-pressed="false" data-sound>
         <span class="film__eq" aria-hidden="true"><b></b><b></b><b></b></span>
@@ -136,20 +158,51 @@
     </div>
 
     <div class="film__caption">
-      <p class="section-label reveal">03 &nbsp;/&nbsp; 第二段影像</p>
+      <p class="section-label reveal">04 &nbsp;/&nbsp; 第二段影像</p>
       <h2 class="reveal" style="--d:100ms">所有结局不一定是坏的，定死的。</h2>
     </div>
 
     <p class="film__note" hidden>视频没加载出来，检查一下 assets/videos/video-2.mp4</p>
   </section>
 
+  <!-- ========== 拆礼物 ========== -->
+  <section class="gifts" id="gifts">
+    <div class="gifts__head">
+      <p class="section-label reveal">05 &nbsp;/&nbsp; 拆礼物</p>
+      <h2 class="gifts__title reveal" style="--d:80ms">三份惊喜，<br>都留给你。</h2>
+      <p class="gifts__count"><span id="giftCount">00</span> / 03 OPENED</p>
+    </div>
+    <div class="gifts__grid" role="group" aria-label="生日礼物">
+      <button class="gift-box gift-box--coral" type="button" aria-expanded="false" aria-label="拆开第一份礼物">
+        <span class="gift-box__number">01</span><span class="gift-box__package" aria-hidden="true"><i class="gift-box__lid"></i><i class="gift-box__body"></i><i class="gift-box__ribbon"></i><i class="gift-box__bow"></i></span>
+        <span class="gift-box__front">拆开礼物 <b aria-hidden="true">↗</b></span>
+        <span class="gift-box__surprise" aria-hidden="true"><strong>烦恼暂停券</strong><small>今天先开心，其他事明天再说。</small></span>
+      </button>
+      <button class="gift-box gift-box--mint" type="button" aria-expanded="false" aria-label="拆开第二份礼物">
+        <span class="gift-box__number">02</span><span class="gift-box__package" aria-hidden="true"><i class="gift-box__lid"></i><i class="gift-box__body"></i><i class="gift-box__ribbon"></i><i class="gift-box__bow"></i></span>
+        <span class="gift-box__front">拆开礼物 <b aria-hidden="true">↗</b></span>
+        <span class="gift-box__surprise" aria-hidden="true"><strong>火鸡面加餐券</strong><small>辣一点，快乐也多一点。</small></span>
+      </button>
+      <button class="gift-box gift-box--gold" type="button" aria-expanded="false" aria-label="拆开第三份礼物">
+        <span class="gift-box__number">03</span><span class="gift-box__package" aria-hidden="true"><i class="gift-box__lid"></i><i class="gift-box__body"></i><i class="gift-box__ribbon"></i><i class="gift-box__bow"></i></span>
+        <span class="gift-box__front">拆开礼物 <b aria-hidden="true">↗</b></span>
+        <span class="gift-box__surprise" aria-hidden="true"><strong>随时约饭券</strong><small>下次见面，饭桌上慢慢聊。</small></span>
+      </button>
+    </div>
+    <div class="gifts__foot"><p id="giftStatus" role="status">挑一个，先打开看看。</p><button id="giftReset" type="button" hidden>重新装好</button></div>
+  </section>
+
   <!-- ========== 许愿 ========== -->
   <section class="wish" id="wish">
-    <p class="section-label reveal">04 &nbsp;/&nbsp; 许一个愿</p>
+    <span class="wish__watermark" aria-hidden="true">22</span>
+    <p class="section-label reveal">06 &nbsp;/&nbsp; 许一个愿</p>
     <h2 class="wish__title reveal" style="--d:80ms">吹灭蜡烛之前，<br>先闭上眼睛。</h2>
 
     <div class="cake" id="cake" role="group" aria-label="生日蛋糕">
+      <div class="cake__spotlight" aria-hidden="true"></div>
       <div class="cake__glow" aria-hidden="true"></div>
+      <span class="cake__spark cake__spark--one" aria-hidden="true">✦</span><span class="cake__spark cake__spark--two" aria-hidden="true">✧</span><span class="cake__spark cake__spark--three" aria-hidden="true">✳</span>
+      <div class="cake__message" aria-hidden="true">HAPPY<br>BIRTHDAY</div>
 
       <div class="cake__plate" aria-hidden="true"><span class="cake__plate-shine"></span></div>
 
@@ -204,6 +257,7 @@
 
     <div class="wish__actions">
       <p class="wish__tip" id="wishTip" aria-live="polite">点一下蜡烛，许个愿吧</p>
+      <button class="wish__blow" id="blowAll" type="button"><span class="wish__blow-icon" aria-hidden="true">〰</span> 一口气吹灭 <span aria-hidden="true">↗</span></button>
       <button class="wish__again" id="wishAgain" type="button" hidden="">再许一次</button>
     </div>
   </section>
@@ -211,9 +265,11 @@
   <!-- ========== 结尾 ========== -->
   <section class="finale">
     <div class="finale__glow" aria-hidden="true"></div>
-    <p class="section-label reveal">05 &nbsp;/&nbsp; 最后一句</p>
+    <span class="finale__outline" aria-hidden="true">生日快乐</span>
+    <p class="section-label reveal">07 &nbsp;/&nbsp; 最后一句</p>
     <h2 class="finale__title reveal" style="--d:80ms">肖希望你往后<br>都会幸福下去的!</h2>
     <p class="finale__sign reveal" style="--d:200ms">生日快乐。以后也一起吃饭。</p>
+    <p class="finale__bonus" id="finaleBonus" hidden>彩蛋解锁：今天所有好运都归你。</p>
     <a class="finale__top reveal" id="backTop" style="--d:320ms" href="#top">回到开头</a>
   </section>
 
@@ -230,7 +286,8 @@
 
 <canvas class="confetti" id="confetti" aria-hidden="true"></canvas>
 
-<script src="js/main.js?v=20261109f"></script>
+<script src="js/main.js?v=20261117c"></script>
+<script src="js/fireworks.js?v=20261117c"></script>
 
 
 </body></html>
