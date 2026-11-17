@@ -8,7 +8,7 @@
   const ctx = canvas.getContext('2d');
   const hero = canvas.closest('.hero');
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const colors = ['#cbb99b', '#f3f0eb', '#a98283', '#d6ccc0', '#b9a6a0'];
+  const colors = ['#e9c88f', '#fff3df', '#bd7881', '#d9a86f', '#f7e4c7'];
   let width = 0;
   let height = 0;
   let particles = [];
@@ -47,7 +47,7 @@
       ctx.lineTo(p.x - p.vx * 28, p.y - p.vy * 28);
       ctx.stroke();
       ctx.beginPath();
-      ctx.fillStyle = '#f3f0eb';
+      ctx.fillStyle = '#fff3df';
       ctx.arc(p.x, p.y, p.weight * 0.7, 0, Math.PI * 2);
       ctx.fill();
       return true;
@@ -70,7 +70,7 @@
         vy: Math.sin(angle) * speed,
         life: 1,
         duration: 1050 + Math.random() * 650,
-        color: Math.random() > 0.74 ? '#f3f0eb' : color,
+        color: Math.random() > 0.74 ? '#fff3df' : color,
         weight: 1.4 + Math.random() * 2.7
       });
     }

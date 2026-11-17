@@ -379,7 +379,7 @@
     const rect = (source || cake) ? (source || cake).getBoundingClientRect() : null;
     const originX = rect ? rect.left + rect.width / 2 : window.innerWidth / 2;
     const originY = rect ? rect.top + rect.height * 0.18 : window.innerHeight / 2;
-    const colors = ['#cbb99b', '#f3f0eb', '#a98283', '#d6ccc0', '#8c686b'];
+    const colors = ['#e9c88f', '#fff3df', '#bd7881', '#d9a86f', '#f7e4c7'];
 
     for (let i = 0; i < 130; i += 1) {
       const angle = -Math.PI / 2 + (Math.random() - 0.5) * 1.9;
@@ -457,6 +457,19 @@
   let spawnTimer = 0;
   let clockTimer = 0;
 
+  const flashCaughtStar = (cell) => {
+    if (reduce || !starBoard) return;
+    const boardRect = starBoard.getBoundingClientRect();
+    const cellRect = cell.getBoundingClientRect();
+    const flash = document.createElement('span');
+    flash.className = 'star-game__sparkburst';
+    flash.textContent = '✦';
+    flash.style.left = `${cellRect.left - boardRect.left + cellRect.width / 2}px`;
+    flash.style.top = `${cellRect.top - boardRect.top + cellRect.height / 2}px`;
+    starBoard.appendChild(flash);
+    flash.addEventListener('animationend', () => flash.remove(), { once: true });
+  };
+
   const clearStarCell = (cell) => {
     if (!cell) return;
     cell.textContent = '';
@@ -529,6 +542,7 @@
       const kind = cell.dataset.kind;
       if (kind === 'star') {
         score += 1;
+        flashCaughtStar(cell);
         starStatus.textContent = score >= 9 ? '最后一颗，抓到了！' : '接住一颗好运星。';
         playNote(500 + score * 40);
       } else {

@@ -6,7 +6,7 @@
   --coral:#b98b8e;
   --mint:#c3bdb4;
   --cream:#f3f0eb;
-  --gold:#cbb99b;
+  --gold:#d5bd91;
   --muted:rgba(243,240,235,.68);
   --line:rgba(243,240,235,.18);
   --serif:"Songti SC","STSong","Noto Serif SC","LXGW WenKai",serif;
@@ -38,12 +38,12 @@ body::before{display:none}
   padding:clamp(130px,22svh,240px) var(--edge) clamp(85px,12svh,130px);
   background:#19191b;
 }
-.hero::before{content:"";position:absolute;z-index:0;right:-9%;top:-25%;width:67%;height:140%;background:#493338;clip-path:polygon(32% 0,100% 0,100% 100%,0 100%);transform:rotate(7deg);pointer-events:none}
-.hero::after{content:"";position:absolute;z-index:0;right:0;bottom:0;width:40%;height:27%;background:#665359;clip-path:polygon(22% 0,100% 0,100% 100%,0 100%);pointer-events:none}
+.hero::before{content:"";position:absolute;z-index:0;right:-9%;top:-25%;width:67%;height:140%;background:#57383d;clip-path:polygon(32% 0,100% 0,100% 100%,0 100%);transform:rotate(7deg);pointer-events:none}
+.hero::after{content:"";position:absolute;z-index:0;right:0;bottom:0;width:40%;height:27%;background:#755b58;clip-path:polygon(22% 0,100% 0,100% 100%,0 100%);pointer-events:none}
 .hero__sky{z-index:2;opacity:1;mix-blend-mode:normal;pointer-events:none}
 .hero__graphic{position:absolute;z-index:1;inset:0;overflow:hidden;pointer-events:none}
 .hero__graphic-number{position:absolute;right:-.11em;top:7%;font:900 clamp(380px,56vw,850px)/1 var(--sans);color:transparent;-webkit-text-stroke:2px rgba(243,240,235,.4);letter-spacing:-.08em;transform:rotate(-7deg);animation:numberIn 1.7s var(--ease) both}
-.hero__graphic-cross{position:absolute;right:16%;bottom:3%;font-size:clamp(160px,25vw,350px);line-height:1;color:#cbb99b;transform:rotate(20deg);animation:crossTurn 18s linear infinite}
+.hero__graphic-cross{position:absolute;right:16%;bottom:3%;font-size:clamp(160px,25vw,350px);line-height:1;color:var(--gold);text-shadow:0 0 38px rgba(213,189,145,.25);transform:rotate(20deg);animation:crossTurn 18s linear infinite}
 .hero__serial{position:absolute;z-index:3;top:19%;left:var(--edge);font-size:10px;font-weight:700;letter-spacing:.24em;color:var(--mint)}
 .hero__content{z-index:3;width:min(760px,76vw);max-width:none;text-align:left}
 .hero__eyebrow{margin-bottom:24px;color:var(--coral);font-family:var(--sans);font-size:clamp(17px,1.4rem,22px);font-weight:700;letter-spacing:.16em;text-indent:0}
@@ -94,7 +94,12 @@ body::before{display:none}
 .film__play{width:82px;height:82px;margin:-41px 0 0 -41px;background:rgba(17,26,27,.7)}
 .film__note{grid-column:1/-1}
 
-.wish{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#211e21;padding:clamp(100px,13svh,160px) var(--edge);isolation:isolate}
+.marquee{padding:clamp(34px,5svh,58px) 0;background:linear-gradient(100deg,#382b30,#563b40 52%,#382b30);border-top:1px solid rgba(213,189,145,.42);border-bottom:1px solid rgba(213,189,145,.42)}
+.marquee__track{gap:0;color:var(--cream);font-size:clamp(18px,2vw,26px);letter-spacing:.11em;animation-duration:34s}
+.marquee__set{display:flex;flex:none;align-items:center;justify-content:space-around;gap:clamp(32px,4vw,64px);min-width:100vw;padding-right:clamp(32px,4vw,64px)}
+.marquee__set i{font-size:17px;font-style:normal;color:var(--gold);letter-spacing:0}
+
+.wish{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#282126;padding:clamp(100px,13svh,160px) var(--edge);isolation:isolate}
 .wish::before{content:"";position:absolute;inset:0;z-index:-1;opacity:.5;background:repeating-radial-gradient(circle at 50% 53%,transparent 0 72px,rgba(245,241,233,.075) 73px 74px,transparent 75px 150px)}
 .wish__watermark{position:absolute;top:6%;right:var(--edge);font:900 clamp(220px,28vw,480px)/1 var(--sans);color:transparent;-webkit-text-stroke:1px rgba(245,241,233,.12);pointer-events:none}
 .wish__title{font-size:clamp(35px,3.5rem,62px);line-height:1.3;letter-spacing:0}
@@ -161,6 +166,10 @@ body::before{display:none}
   .film__caption{padding:8px 0 0}
   .film__caption h2,.film--right .film__caption h2{font-size:clamp(30px,2.4rem,40px)}
   .film__sound{top:12px;right:12px}
+  .marquee{padding:30px 0}
+  .marquee__track{font-size:17px;letter-spacing:.08em}
+  .marquee__set{gap:27px;padding-right:27px}
+  .marquee__set i{font-size:13px}
   .wish{min-height:0;padding:110px var(--edge) 95px}
   .wish__watermark{font-size:240px}
   .wish__title{font-size:clamp(32px,2.5rem,42px)}
@@ -179,4 +188,6 @@ body::before{display:none}
 @media (prefers-reduced-motion:reduce){
   .hero__graphic-number,.hero__graphic-cross,.topbar__star{animation:none}
   .hero__rule{width:150px;animation:none}
+  .marquee__track{display:flex;animation:none}
+  .marquee__set:nth-child(2){display:none}
 }

@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>生日快乐</title>
 <meta name="description" content="生日快乐。两段片子，几句真心话，还有亲手拆开的惊喜。">
-<meta name="theme-color" content="#19191b">
+<meta name="theme-color" content="#0b0910">
 
 <!-- 社交分享卡片 -->
 <meta property="og:type" content="website">
@@ -15,13 +15,14 @@
 <meta name="twitter:title" content="生日快乐">
 <meta name="twitter:description" content="两段片子，几句真心话。">
 
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='12' fill='%23cbb99b'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='12' fill='%23e9c88f'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin="">
 <!-- 字体异步加载：CDN 慢或打不开时不会卡住渲染，直接回落到系统楷体；加载失败则移除该样式表 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css" media="print" onload="this.media='all'" onerror="this.remove()">
 <link rel="stylesheet" href="css/style.css?v=20261117a">
-<link rel="stylesheet" href="css/showreel.css?v=20261117d">
-<link rel="stylesheet" href="css/play.css?v=20261117d">
+<link rel="stylesheet" href="css/showreel.css?v=20261117e">
+<link rel="stylesheet" href="css/play.css?v=20261117e">
+<link rel="stylesheet" href="css/afterglow.css?v=20261117e">
 <noscript><style>
 .reveal{opacity:1!important;transform:none!important}
 .film--reveal .film__frame{clip-path:none!important}
@@ -58,8 +59,7 @@
   <!-- ========== 首屏 ========== -->
   <section class="hero">
     <canvas class="hero__sky" id="sky" data-fireworks aria-hidden="true"></canvas>
-    <div class="hero__graphic" aria-hidden="true"><span class="hero__graphic-number">22</span><span class="hero__graphic-cross">✳</span></div>
-    <span class="hero__serial" aria-hidden="true">A PRIVATE BIRTHDAY FILM &nbsp; / &nbsp; 2026</span>
+    <div class="hero__ring" aria-hidden="true"></div>
 
     <div class="hero__content">
       <!-- 修改这里：眉标（寿星称呼） -->
@@ -140,6 +140,14 @@
     </div>
   </section>
 
+  <!-- ========== 生日跑马灯 ========== -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      <span class="marquee__set"><span>少熬夜</span><i>✦</i><span>别委屈自己</span><i>✦</i><span>想做什么就做什么</span><i>✦</i><span>火鸡面大王</span><i>✦</i></span>
+      <span class="marquee__set"><span>少熬夜</span><i>✦</i><span>别委屈自己</span><i>✦</i><span>想做什么就做什么</span><i>✦</i><span>火鸡面大王</span><i>✦</i></span>
+    </div>
+  </div>
+
   <!-- ========== 第二段影像 ========== -->
   <section class="film film--wide film--right" data-film>
     <span class="film__index" aria-hidden="true">02 / 02</span>
@@ -194,12 +202,10 @@
 
   <!-- ========== 许愿 ========== -->
   <section class="wish" id="wish">
-    <span class="wish__watermark" aria-hidden="true">22</span>
     <p class="section-label reveal">06 &nbsp;/&nbsp; 许一个愿</p>
     <h2 class="wish__title reveal" style="--d:80ms">吹灭蜡烛之前，<br>先闭上眼睛。</h2>
 
     <div class="cake" id="cake" role="group" aria-label="生日蛋糕">
-      <div class="cake__spotlight" aria-hidden="true"></div>
       <div class="cake__glow" aria-hidden="true"></div>
       <span class="cake__spark cake__spark--one" aria-hidden="true">✦</span><span class="cake__spark cake__spark--two" aria-hidden="true">✧</span><span class="cake__spark cake__spark--three" aria-hidden="true">✳</span>
       <div class="cake__message" aria-hidden="true">HAPPY<br>BIRTHDAY</div>
@@ -262,11 +268,37 @@
     </div>
   </section>
 
+  <section class="night-note" id="night-note" aria-labelledby="nightNoteTitle">
+    <div class="night-note__inner">
+      <p class="section-label reveal">07 &nbsp;/&nbsp; 留给未来</p>
+      <h2 class="night-note__title reveal" id="nightNoteTitle" style="--d:80ms">把这一刻，<br>留给以后的你。</h2>
+      <form class="night-note__form reveal" id="nightNoteForm" style="--d:160ms">
+        <label for="nightNoteText">写一句想对未来的自己说的话</label>
+        <textarea id="nightNoteText" maxlength="120" rows="3" placeholder="写在这里……" required></textarea>
+        <div class="night-note__form-foot">
+          <span class="night-note__count" id="nightNoteCount">0 / 120</span>
+          <button class="night-note__send" type="submit">封存这一刻 <span aria-hidden="true">✦</span></button>
+        </div>
+      </form>
+      <div class="night-note__sealed" id="nightNoteSealed" hidden>
+        <span class="night-note__seal" aria-hidden="true">✦</span>
+        <p class="night-note__saved-label">留给未来的你</p>
+        <p class="night-note__saved-text" id="nightNoteSaved"></p>
+        <div class="night-note__sealed-actions">
+          <button class="night-note__edit" id="nightNoteEdit" type="button">重新写一句 <span aria-hidden="true">↗</span></button>
+          <button class="night-note__clear" id="nightNoteClear" type="button">清空纸条</button>
+        </div>
+      </div>
+      <p class="night-note__privacy">这句话只留在这台设备里。</p>
+    </div>
+    <span class="night-note__flight" aria-hidden="true">✦</span>
+  </section>
+
   <!-- ========== 结尾 ========== -->
   <section class="finale">
     <div class="finale__glow" aria-hidden="true"></div>
     <span class="finale__outline" aria-hidden="true">生日快乐</span>
-    <p class="section-label reveal">07 &nbsp;/&nbsp; 最后一句</p>
+    <p class="section-label reveal">08 &nbsp;/&nbsp; 最后一句</p>
     <h2 class="finale__title reveal" style="--d:80ms">肖希望你往后<br>都会幸福下去的!</h2>
     <p class="finale__sign reveal" style="--d:200ms">生日快乐。以后也一起吃饭。</p>
     <p class="finale__bonus" id="finaleBonus" hidden>彩蛋解锁：今天所有好运都归你。</p>
@@ -286,8 +318,9 @@
 
 <canvas class="confetti" id="confetti" aria-hidden="true"></canvas>
 
-<script src="js/main.js?v=20261117d"></script>
-<script src="js/fireworks.js?v=20261117d"></script>
+<script src="js/main.js?v=20261117g"></script>
+<script src="js/fireworks.js?v=20261117f"></script>
+<script src="js/atmosphere.js?v=20261117c"></script>
 
 
 </body></html>

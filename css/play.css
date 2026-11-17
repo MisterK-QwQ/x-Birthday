@@ -3,7 +3,7 @@
   display:grid;grid-template-columns:minmax(280px,.75fr) minmax(480px,1fr);
   align-items:center;gap:clamp(60px,7vw,130px);
   padding:clamp(100px,13svh,160px) var(--edge);
-  background:#dedad4;color:var(--night);overflow:hidden;
+  background:#e3ddd5;color:var(--night);overflow:hidden;
 }
 .star-game::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.28;background:repeating-linear-gradient(90deg,transparent 0 119px,rgba(25,25,27,.12) 120px),repeating-linear-gradient(0deg,transparent 0 119px,rgba(25,25,27,.12) 120px)}
 .star-game::after{content:"✦";position:absolute;left:-.12em;bottom:-.35em;font:600 clamp(500px,48vw,850px)/1 var(--serif);color:rgba(25,25,27,.035);pointer-events:none}
@@ -38,7 +38,7 @@
 .play-command span{font-size:18px;line-height:1}
 .star-game.is-won .star-game__console{border-color:var(--gold);box-shadow:18px 18px 0 rgba(203,185,155,.14)}
 
-.gifts{position:relative;z-index:2;padding:clamp(100px,13svh,165px) var(--edge) clamp(90px,12svh,140px);background:#d4cec7;color:var(--night);overflow:hidden}
+.gifts{position:relative;z-index:2;padding:clamp(100px,13svh,165px) var(--edge) clamp(90px,12svh,140px);background:#d8c9c2;color:var(--night);overflow:hidden}
 .gifts::before{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(135deg,transparent 0 70px,rgba(255,255,255,.11) 71px 72px,transparent 73px 140px)}
 .gifts__head,.gifts__grid,.gifts__foot{position:relative;z-index:1}
 .gifts__head{display:grid;grid-template-columns:1fr auto;align-items:end;gap:10px;margin-bottom:clamp(45px,7svh,80px)}
@@ -81,12 +81,12 @@
 .finale__bonus{position:relative;z-index:1;margin:0 0 32px;padding:12px 20px;border:1px solid #9b6468;color:#805057;font-size:13px;font-weight:700;letter-spacing:.08em;animation:bonusIn .8s var(--ease) both}
 .finale.is-unlocked .finale__outline{-webkit-text-stroke-color:rgba(155,100,104,.18)}
 
-.wish{background:#211e21}
+.wish{background:#282126}
 .wish::before{opacity:.7;background:repeating-radial-gradient(circle at 50% 53%,transparent 0 94px,rgba(245,241,233,.09) 95px 96px,transparent 97px 188px)}
 .wish__title{position:relative;z-index:2}
 .cake{width:min(440px,78vw);height:calc(min(440px,78vw) * .96);margin-top:clamp(85px,11svh,130px);filter:drop-shadow(0 32px 36px rgba(0,0,0,.38));transition:transform .6s var(--ease)}
 .cake:hover{transform:translateY(-8px) rotate(1deg)}
-.cake__spotlight{position:absolute;z-index:0;left:50%;top:-70%;width:150%;height:165%;transform:translateX(-50%);background:rgba(203,185,155,.065);clip-path:polygon(43% 0,57% 0,100% 100%,0 100%);pointer-events:none}
+.cake__spotlight{position:absolute;z-index:0;left:50%;top:-70%;width:150%;height:165%;transform:translateX(-50%);background:rgba(213,189,145,.105);clip-path:polygon(43% 0,57% 0,100% 100%,0 100%);pointer-events:none}
 .cake__glow{width:110%;bottom:64%;filter:blur(24px)}
 .cake__tier--bottom{background:linear-gradient(90deg,rgba(0,0,0,.28),rgba(255,255,255,.1) 25%,transparent 65%,rgba(0,0,0,.23)),linear-gradient(#9c7374,#744d53 75%,#59383f)}
 .cake__tier--mid{background:linear-gradient(90deg,rgba(0,0,0,.24),rgba(255,255,255,.14) 25%,transparent 65%,rgba(0,0,0,.2)),linear-gradient(#ae8986,#86615f 78%,#69484a)}
