@@ -1,17 +1,17 @@
 /* =========================================================
    生日快乐 · 单页
-   配色：深墨夜 + 暖金 + 奶油白
+   配色：炭黑 + 暖白 + 暗红
    ========================================================= */
 
 :root{
-  --ink:#08070c;
-  --ink-2:#120d1b;
-  --cream:#f6ecdd;
-  --gold:#e9c88f;
-  --gold-deep:#c99a54;
-  --rose:#c96f7b;
-  --muted:rgba(246,236,221,.6);
-  --line:rgba(233,200,143,.2);
+  --ink:#19191b;
+  --ink-2:#252326;
+  --cream:#f3f0eb;
+  --gold:#cbb99b;
+  --gold-deep:#a89476;
+  --rose:#9b6468;
+  --muted:rgba(243,240,235,.6);
+  --line:rgba(243,240,235,.2);
   --serif:"LXGW WenKai","Songti SC","STSong","KaiTi","STKaiti","Noto Serif SC",serif;
   --sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,-apple-system,sans-serif;
   --edge:calc(clamp(20px,5vw,72px) + env(safe-area-inset-left));
@@ -39,7 +39,7 @@ body{
 
 /* 键盘焦点：只给键盘导航显示，鼠标点击不出现 */
 :focus-visible{
-  outline:1px solid rgba(233,200,143,.85);
+  outline:1px solid rgba(203,185,155,.85);
   outline-offset:4px;
 }
 button:focus:not(:focus-visible),
@@ -48,14 +48,14 @@ a:focus:not(:focus-visible){outline:none}
 a,button{touch-action:manipulation}
 
 /* 滚动条 */
-*{scrollbar-width:thin;scrollbar-color:rgba(233,200,143,.28) transparent}
+*{scrollbar-width:thin;scrollbar-color:rgba(203,185,155,.28) transparent}
 ::-webkit-scrollbar{width:8px;height:8px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{
-  background:rgba(233,200,143,.26);
+  background:rgba(203,185,155,.26);
   border-radius:999px;
 }
-::-webkit-scrollbar-thumb:hover{background:rgba(233,200,143,.45)}
+::-webkit-scrollbar-thumb:hover{background:rgba(203,185,155,.45)}
 
 body::before{
   content:"";
@@ -64,12 +64,12 @@ body::before{
   z-index:0;
   pointer-events:none;
   background:
-    radial-gradient(60vw 50vh at 15% 5%, rgba(201,111,123,.10), transparent 70%),
-    radial-gradient(70vw 60vh at 85% 35%, rgba(233,200,143,.06), transparent 72%),
-    radial-gradient(80vw 70vh at 50% 100%, rgba(120,60,90,.14), transparent 70%);
+    radial-gradient(60vw 50vh at 15% 5%, rgba(155,100,104,.08), transparent 70%),
+    radial-gradient(70vw 60vh at 85% 35%, rgba(203,185,155,.05), transparent 72%),
+    radial-gradient(80vw 70vh at 50% 100%, rgba(100,77,80,.1), transparent 70%);
 }
 
-::selection{background:rgba(233,200,143,.28);color:#fff}
+::selection{background:rgba(155,100,104,.45);color:#fff}
 
 img,video{display:block;max-width:100%}
 button{font:inherit;color:inherit}
@@ -83,8 +83,8 @@ a{color:inherit}
 .progress span{
   display:block;height:100%;width:100%;
   transform:scaleX(0);transform-origin:0 50%;
-  background:linear-gradient(90deg,rgba(233,200,143,.2),var(--gold),#fff8ea);
-  box-shadow:0 0 14px rgba(233,200,143,.6);
+  background:linear-gradient(90deg,rgba(203,185,155,.2),var(--gold),#f3f0eb);
+  box-shadow:0 0 14px rgba(203,185,155,.35);
 }
 
 .grain{
@@ -98,7 +98,7 @@ a{color:inherit}
   position:fixed;left:0;top:0;z-index:1;
   width:460px;height:460px;margin:-230px 0 0 -230px;
   border-radius:50%;pointer-events:none;
-  background:radial-gradient(circle,rgba(233,200,143,.09),rgba(233,200,143,.03) 40%,transparent 62%);
+  background:radial-gradient(circle,rgba(203,185,155,.09),rgba(203,185,155,.03) 40%,transparent 62%);
   opacity:0;transition:opacity .8s ease;
   will-change:transform;
 }

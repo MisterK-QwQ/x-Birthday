@@ -379,7 +379,7 @@
     const rect = (source || cake) ? (source || cake).getBoundingClientRect() : null;
     const originX = rect ? rect.left + rect.width / 2 : window.innerWidth / 2;
     const originY = rect ? rect.top + rect.height * 0.18 : window.innerHeight / 2;
-    const colors = ['#e9c88f', '#fdf3e2', '#c96f7b', '#f6ecdd', '#b9853f'];
+    const colors = ['#cbb99b', '#f3f0eb', '#a98283', '#d6ccc0', '#8c686b'];
 
     for (let i = 0; i < 130; i += 1) {
       const angle = -Math.PI / 2 + (Math.random() - 0.5) * 1.9;
